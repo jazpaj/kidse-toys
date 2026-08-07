@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plush Toys — KIDSE TOYS</title>
+  <meta name="description" content="Shop huggable plush squisher toys: soft plush outside, squishy Sugar Ball inside. Axolotls, sharks, capybaras, bubble-stuffed friends and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧸</text></svg>">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <section class="page-head">
+    <div class="wrap">
+      <div class="breadcrumbs"><a href="index.html">Home</a> / Plush Toys</div>
+      <span class="eyebrow">🧸 Soft outside · Squishy inside</span>
+      <h1>Plush Toys</h1>
+      <p class="lead">Cuddly plush wrapped around a squishy Sugar Ball center — two satisfying textures in one huggable friend. Collectible characters your shelf will thank you for.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="filters">
+        <span style="font-family:var(--font-head);font-weight:600">Price:</span>
+        <button class="chip-btn active" data-price="all">All</button>
+        <button class="chip-btn" data-price="5">$5</button>
+        <button class="chip-btn" data-price="25">$25</button>
+        <button class="chip-btn" data-price="35">$35</button>
+        <button class="chip-btn" data-price="50">$50</button>
+        <button class="chip-btn" data-price="60">$60</button>
+        <button class="chip-btn" data-price="70">$70</button>
+        <select id="sortSelect">
+          <option value="featured">Sort: Featured</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+          <option value="name">Name: A–Z</option>
+        </select>
+      </div>
+      <p id="resultCount" style="color:var(--muted);font-size:.9rem;margin-bottom:18px"></p>
+      <div class="grid" id="productGrid"></div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script>window.PAGE_KEY="plush";</script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>initCollectionPage("plush");</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bundles & Deals — KIDSE TOYS</title>
+  <meta name="description" content="Save big with KIDSE TOYS bundles. Mix squishy and plush toys from $25 starter packs to the 30-piece Whole Squad. Bundle & save.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <section class="page-head">
+    <div class="wrap">
+      <div class="breadcrumbs"><a href="index.html">Home</a> / Bundles</div>
+      <span class="eyebrow">🎁 Bundle & save</span>
+      <h1>Bundles & Deals</h1>
+      <p class="lead">The more you squish, the more you save. Curated mixes of squishy and plush toys — perfect for gifting, classrooms, party favors, and serious collectors.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid grid-3" id="bundleGrid"></div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="wrap">
+      <div class="notice">💡 Every bundle ships free and comes with a surprise bonus toy while supplies last.</div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script>window.PAGE_KEY="bundles";</script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    (function(){
+      const bundles = productsByCat("bundle").sort((a,b)=>a.price-b.price);
+      const grid = document.getElementById("bundleGrid");
+      grid.innerHTML = bundles.map(p => `
+        <div class="bundle-card ${p.badge==='hot'?'pop':''}">
+          <div class="bundle-emoji">${p.emoji}</div>
+          <h3>${p.name}</h3>
+          <div class="bundle-price">${fmt(p.price)} <span>bundle</span></div>
+          <p style="font-size:.92rem">${p.desc}</p>
+          <ul class="bundle-list">${(p.includes||[]).map(i=>`<li>${i}</li>`).join("")}</ul>
+          <button class="btn btn-primary btn-block" style="margin-top:auto" onclick="addToCart('${p.id}')">Add bundle to cart</button>
+        </div>`).join("");
+    })();
+  </script>
+</body>
+</html>

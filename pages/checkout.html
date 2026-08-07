@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — KIDSE TOYS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <section class="page-head">
+    <div class="wrap">
+      <div class="breadcrumbs"><a href="../index.html">Home</a> / Checkout</div>
+      <h1>Checkout</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap contact-grid">
+      <!-- Details -->
+      <div>
+        <form data-demo="Demo only — connect a payment provider to accept real orders." id="checkoutForm">
+          <h3>Contact</h3>
+          <div class="form-field"><label>Email</label><input type="email" required placeholder="you@email.com"></div>
+          <h3 style="margin-top:24px">Shipping address</h3>
+          <div class="form-field"><label>Full name</label><input required placeholder="Jane Doe"></div>
+          <div class="form-field"><label>Address</label><input required placeholder="123 Main St"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+            <div class="form-field"><label>City</label><input required></div>
+            <div class="form-field"><label>State</label><input required></div>
+            <div class="form-field"><label>ZIP</label><input required></div>
+          </div>
+          <div class="callout" style="background:var(--bg-tint);border-left:4px solid var(--purple);border-radius:12px;padding:14px 18px">
+            🔒 This is a front-end demo store. To accept real payments, connect a provider such as Stripe, Shopify Payments, or PayPal. No card details are collected here.
+          </div>
+          <button class="btn btn-primary btn-lg btn-block" type="submit" style="margin-top:8px">Place order (demo)</button>
+        </form>
+      </div>
+
+      <!-- Summary -->
+      <div>
+        <div class="info-card">
+          <h4>Order summary</h4>
+          <div id="summaryLines"></div>
+          <div style="border-top:1px solid var(--line);margin-top:14px;padding-top:14px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Subtotal</span><b id="sumSubtotal">$0</b></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;color:var(--ink-soft)"><span>Shipping</span><span id="sumShip">—</span></div>
+            <div style="display:flex;justify-content:space-between;font-family:var(--font-head);font-size:1.3rem;margin-top:10px"><span>Total</span><b id="sumTotal">$0</b></div>
+          </div>
+        </div>
+        <a class="btn btn-ghost btn-block" href="../squishy.html">← Continue shopping</a>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script>window.PAGE_KEY="";</script>
+  <script src="../assets/js/products.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script>
+    function renderSummary(){
+      const cart = readCart();
+      const box = document.getElementById("summaryLines");
+      if(!cart.length){ box.innerHTML = `<p style="color:var(--muted)">Your cart is empty. <a href="../squishy.html" style="color:var(--purple)">Add some toys →</a></p>`; }
+      else {
+        box.innerHTML = cart.map(l=>{const p=getProduct(l.id); if(!p) return ""; return `
+          <div style="display:flex;gap:12px;align-items:center;padding:8px 0">
+            <div style="width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-size:1.4rem;background:${gradOf(p)}">${p.emoji}</div>
+            <div style="flex:1;font-size:.9rem"><b style="font-family:var(--font-head)">${p.name}</b><br><span style="color:var(--muted)">Qty ${l.qty}</span></div>
+            <span style="font-weight:600">${fmt(p.price*l.qty)}</span>
+          </div>`;}).join("");
+      }
+      const sub = cartTotal();
+      const ship = sub>=50 || sub===0 ? 0 : 6.95;
+      document.getElementById("sumSubtotal").textContent = fmt(sub);
+      document.getElementById("sumShip").textContent = sub===0 ? "—" : (ship===0 ? "FREE" : fmt(ship));
+      document.getElementById("sumTotal").textContent = fmt(sub+ship);
+    }
+    document.addEventListener("DOMContentLoaded", renderSummary);
+    window.renderCartPage = renderSummary; // refresh when cart changes
+  </script>
+</body>
+</html>
