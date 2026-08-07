@@ -91,8 +91,8 @@ function renderFooter(){
             ${BIZ.addr1[0]}<br>${BIZ.addr1[1]}<br><br>
             <b style="margin-top:4px">Address 2</b>
             ${BIZ.addr2[0]}<br>${BIZ.addr2[1]}<br><br>
-            📞 <a href="tel:${BIZ.phoneHref}" style="color:#cfc7e4">${BIZ.phone}</a><br>
-            ✉️ <a href="mailto:${BIZ.email}" style="color:#cfc7e4">${BIZ.email}</a>
+            📞 <a href="tel:${BIZ.phoneHref}" style="color:#c2cbdd">${BIZ.phone}</a><br>
+            ✉️ <a href="mailto:${BIZ.email}" style="color:#c2cbdd">${BIZ.email}</a>
           </div>
         </div>
 

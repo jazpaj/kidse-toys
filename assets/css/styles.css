@@ -4,30 +4,34 @@
    ===================================================================== */
 
 :root {
-  /* Brand palette */
-  --ink: #1c1230;
-  --ink-soft: #4a4060;
-  --muted: #8a83a0;
-  --line: #ece8f5;
+  /* Brand palette — "Toybox": bright primary colors for kids.
+     Variable NAMES are kept from the original scheme so every component
+     re-themes automatically; only the VALUES changed.
+     --purple = primary interactive (blue) · --pink = warm accent (coral) */
+  --ink: #24304a;
+  --ink-soft: #55617c;
+  --muted: #8b93a8;
+  --line: #e9edf5;
   --bg: #ffffff;
-  --bg-soft: #faf8ff;
-  --bg-tint: #f4f0ff;
+  --bg-soft: #f3f9ff;
+  --bg-tint: #e7f2ff;
 
-  --pink: #ff5da2;
-  --pink-soft: #ffd9ec;
-  --purple: #8a4dff;
-  --violet: #6c3bf4;
-  --mint: #2fd7b5;
-  --lemon: #ffd43b;
-  --sky: #45b8ff;
-  --coral: #ff7a59;
+  --pink: #ff6b6b;          /* coral accent */
+  --pink-soft: #ffe1dc;
+  --purple: #2f8fed;        /* primary blue (links, active, focus) */
+  --violet: #1f6fd0;        /* darker blue */
+  --mint: #35c877;          /* grass green */
+  --lemon: #ffc73a;         /* sunny yellow */
+  --sky: #12c2b6;           /* teal */
+  --coral: #ff934d;         /* orange */
+  --grape: #8a6cff;         /* soft purple (tertiary) */
 
-  --grad-hero: linear-gradient(135deg, #ff5da2 0%, #8a4dff 55%, #45b8ff 100%);
-  --grad-cta: linear-gradient(135deg, #ff5da2 0%, #8a4dff 100%);
+  --grad-hero: linear-gradient(135deg, #ffc73a 0%, #ff934d 38%, #ff6b6b 70%, #8a6cff 100%);
+  --grad-cta: linear-gradient(135deg, #2f8fed 0%, #12c2b6 100%);
 
-  --shadow-sm: 0 2px 10px rgba(28, 18, 48, 0.06);
-  --shadow-md: 0 12px 34px rgba(28, 18, 48, 0.10);
-  --shadow-lg: 0 24px 60px rgba(108, 59, 244, 0.16);
+  --shadow-sm: 0 2px 10px rgba(36, 48, 74, 0.07);
+  --shadow-md: 0 12px 34px rgba(36, 48, 74, 0.12);
+  --shadow-lg: 0 24px 60px rgba(47, 143, 237, 0.20);
 
   --radius-sm: 12px;
   --radius: 20px;
@@ -82,8 +86,8 @@ img { max-width: 100%; display: block; }
   text-align: center; white-space: nowrap;
 }
 .btn:active { transform: translateY(1px); }
-.btn-primary { background: var(--grad-cta); color: #fff; box-shadow: 0 10px 24px rgba(138, 77, 255, .35); }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(138, 77, 255, .45); }
+.btn-primary { background: var(--grad-cta); color: #fff; box-shadow: 0 10px 24px rgba(47, 143, 237, .35); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(18, 194, 182, .45); }
 .btn-dark { background: var(--ink); color: #fff; }
 .btn-dark:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
 .btn-ghost { background: #fff; color: var(--ink); border: 2px solid var(--line); }
@@ -146,8 +150,8 @@ img { max-width: 100%; display: block; }
 .cat-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .cat-card { position:relative; border-radius: var(--radius-lg); padding: 40px; min-height: 300px;
   display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; color:#fff; box-shadow: var(--shadow-md); }
-.cat-card.squishy { background: linear-gradient(150deg,#ff7a59,#ff5da2 60%,#8a4dff); }
-.cat-card.plush { background: linear-gradient(150deg,#45b8ff,#2fd7b5 60%,#8a4dff); }
+.cat-card.squishy { background: linear-gradient(150deg,#ffc73a,#ff934d 55%,#ff6b6b); }
+.cat-card.plush { background: linear-gradient(150deg,#2f8fed,#12c2b6 60%,#35c877); }
 .cat-card .cat-emoji { position:absolute; top:-10px; right:10px; font-size: 9rem; opacity:.4; }
 .cat-card h3 { color:#fff; font-size: 2rem; }
 .cat-card p { color: rgba(255,255,255,.9); }
@@ -165,7 +169,7 @@ img { max-width: 100%; display: block; }
 .badge { position:absolute; top:12px; left:12px; font-family: var(--font-head); font-weight:600; font-size:.7rem;
   text-transform:uppercase; letter-spacing:.05em; padding: 5px 10px; border-radius: var(--radius-pill); color:#fff; }
 .badge.new { background: var(--mint); } .badge.hot { background: var(--pink); }
-.badge.limited { background: var(--purple); } .badge.sold { background: var(--muted); }
+.badge.limited { background: var(--grape); } .badge.sold { background: var(--muted); }
 .card-body { padding: 16px 16px 18px; display:flex; flex-direction:column; flex:1; }
 .card-tag { font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color: var(--purple); margin-bottom:6px; }
 .card-title { font-family: var(--font-head); font-weight:600; font-size:1.02rem; line-height:1.2; margin:0 0 4px; }
@@ -232,21 +236,21 @@ img { max-width: 100%; display: block; }
 .news-form input:focus { outline:none; border-color: var(--purple); }
 
 /* ---------- Footer ---------- */
-.site-footer { background: var(--ink); color:#cfc7e4; padding: 60px 0 26px; margin-top: 40px; }
+.site-footer { background: var(--ink); color:#c2cbdd; padding: 60px 0 26px; margin-top: 40px; }
 .footer-top { display:grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; }
 .footer-brand .brand { color:#fff; }
-.footer-brand p { color: #a99fc6; font-size:.9rem; max-width: 320px; }
-.footer-legal-info { font-size:.82rem; line-height:1.7; color:#a99fc6; margin-top:14px; }
+.footer-brand p { color: #9aa6bd; font-size:.9rem; max-width: 320px; }
+.footer-legal-info { font-size:.82rem; line-height:1.7; color:#9aa6bd; margin-top:14px; }
 .footer-legal-info b { color:#fff; display:block; font-family:var(--font-head); letter-spacing:.02em; }
 .footer-col h5 { color:#fff; font-family: var(--font-head); font-weight:600; font-size:1rem; margin:0 0 16px; letter-spacing:.02em; }
 .footer-col ul { list-style:none; padding:0; margin:0; }
 .footer-col li { margin-bottom:10px; }
-.footer-col a { color:#b9b0d4; font-size:.9rem; transition: color .15s; }
+.footer-col a { color:#aeb9cf; font-size:.9rem; transition: color .15s; }
 .footer-col a:hover { color:#fff; }
 .footer-pay { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
-.pay-badge { background:#2a2140; border:1px solid #392e56; border-radius:8px; padding:6px 10px; font-size:.72rem; font-weight:700; color:#cfc7e4; font-family:var(--font-head); letter-spacing:.03em; }
-.footer-bottom { border-top:1px solid #322850; margin-top: 44px; padding-top: 22px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:center; font-size:.82rem; color:#8f86ac; }
-.footer-bottom a { color:#8f86ac; } .footer-bottom a:hover { color:#fff; }
+.pay-badge { background:#324060; border:1px solid #3f4e70; border-radius:8px; padding:6px 10px; font-size:.72rem; font-weight:700; color:#c2cbdd; font-family:var(--font-head); letter-spacing:.03em; }
+.footer-bottom { border-top:1px solid #38455e; margin-top: 44px; padding-top: 22px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:center; font-size:.82rem; color:#8592ab; }
+.footer-bottom a { color:#8592ab; } .footer-bottom a:hover { color:#fff; }
 
 /* ---------- Cart drawer ---------- */
 .drawer-overlay { position:fixed; inset:0; background: rgba(28,18,48,.45); opacity:0; visibility:hidden; transition: .25s; z-index: 90; }

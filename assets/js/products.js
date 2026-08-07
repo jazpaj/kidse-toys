@@ -9,14 +9,14 @@
    ===================================================================== */
 
 const GRADIENTS = {
-  pink:   "linear-gradient(150deg,#ffd9ec,#ff9ecb)",
-  purple: "linear-gradient(150deg,#e5d6ff,#b99bff)",
-  mint:   "linear-gradient(150deg,#c9f7ec,#7ee8cf)",
-  sky:    "linear-gradient(150deg,#d3edff,#8fd4ff)",
-  lemon:  "linear-gradient(150deg,#fff2c2,#ffe066)",
-  coral:  "linear-gradient(150deg,#ffe0d6,#ffab8f)",
-  grape:  "linear-gradient(150deg,#efe0ff,#c9a3ff)",
-  candy:  "linear-gradient(150deg,#ffe0f0,#ffc2e2,#d9c2ff)"
+  pink:   "linear-gradient(150deg,#ffd7df,#ff9fb0)",  /* coral */
+  purple: "linear-gradient(150deg,#dcd6ff,#a89dff)",  /* soft violet */
+  mint:   "linear-gradient(150deg,#c8f6d8,#77e3a2)",  /* grass green */
+  sky:    "linear-gradient(150deg,#cdeefe,#7fd0fb)",  /* sky blue */
+  lemon:  "linear-gradient(150deg,#fff0bd,#ffd447)",  /* sunny yellow */
+  coral:  "linear-gradient(150deg,#ffe3cc,#ffab73)",  /* orange */
+  grape:  "linear-gradient(150deg,#c9ecff,#8fd4f5)",  /* teal-blue */
+  candy:  "linear-gradient(150deg,#fff3c4,#ffd0dc,#c9e0ff)" /* rainbow pastel */
 };
 
 const PRODUCTS = [
