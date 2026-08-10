@@ -250,7 +250,7 @@ img { max-width: 100%; display: block; }
 .news-form input:focus { outline:none; border-color: var(--purple); }
 
 /* ---------- Footer (professional, Albatuna-style monospace) ---------- */
-.site-footer { background: var(--footer-bg); color:#c3c9f5; padding: 58px 0 26px; margin-top: 40px; font-family: var(--font-mono); }
+.site-footer { background: var(--footer-bg); color:#c3c9f5; padding: 58px 0 26px; margin-top: 0; font-family: var(--font-mono); }
 .footer-top { display:grid; grid-template-columns: 1.7fr 1fr 1fr; gap: 44px; }
 .foot-logo { font-family: var(--font-head); font-weight:800; font-size:1.9rem; color:#fff; letter-spacing:.03em; line-height:1; }
 .foot-logo sup { font-size:.5rem; margin-left:2px; opacity:.85; }
@@ -518,3 +518,7 @@ h1, h2, h3, h4 { font-weight: 800; letter-spacing: -.01em; }
   .gallery { grid-template-columns: repeat(2,1fr); grid-auto-rows: 150px; }
   .gallery .g-wide { grid-column: span 2; } .gallery .g-tall { grid-row: span 1; }
 }
+
+/* Remove the white band directly above the footer: let the (dark) footer's
+   own top padding provide the spacing instead of the section's bottom padding. */
+:where(.section, .section-sm, .legal, .page-head):has(+ #site-footer) { padding-bottom: 0; }
