@@ -69,7 +69,7 @@
       else {
         box.innerHTML = cart.map(l=>{const p=getProduct(l.id); if(!p) return ""; return `
           <div style="display:flex;gap:12px;align-items:center;padding:8px 0">
-            <div style="width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-size:1.4rem;background:${gradOf(p)}">${p.emoji}</div>
+            <div style="width:44px;height:44px;border-radius:10px;overflow:hidden;display:grid;place-items:center;font-size:1.4rem;background:${p.img?'#f4f0ff':gradOf(p)}">${p.img?`<img src="${ROOT}${p.img}" alt="" style="width:100%;height:100%;object-fit:cover">`:p.emoji}</div>
             <div style="flex:1;font-size:.9rem"><b style="font-family:var(--font-head)">${p.name}</b><br><span style="color:var(--muted)">Qty ${l.qty}</span></div>
             <span style="font-weight:600">${fmt(p.price*l.qty)}</span>
           </div>`;}).join("");

@@ -178,7 +178,7 @@ function toast(msg){ const t = document.getElementById("toast"); if(!t) return; 
 function cartLineHTML(l){
   const p = getProduct(l.id); if(!p) return "";
   return `<div class="cart-line">
-    <div class="thumb" style="background:${gradOf(p)}">${p.emoji}</div>
+    <div class="thumb" style="background:${p.img?'#f4f0ff':gradOf(p)}">${p.img?`<img src="${ROOT}${p.img}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:14px">`:p.emoji}</div>
     <div class="info">
       <h4>${p.name}</h4>
       <span class="cl-price">${fmt(p.price)}</span>

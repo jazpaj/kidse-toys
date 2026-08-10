@@ -1,0 +1,6 @@
+Product names and photos in this folder are pulled from the supplier catalog
+at toptrenz.com (Top Trenz), for a reseller/dropship storefront preview.
+These are the supplier's/manufacturer's product images. Before a public launch,
+confirm you have the right to use supplier imagery (usually granted to resellers)
+or replace with your own product photography. To swap: keep the same filename in
+assets/img/products/ (referenced by the `img` field in assets/js/products.js).
