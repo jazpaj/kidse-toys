@@ -54,9 +54,8 @@ function renderHeader(){
   <div class="announce">🚚 Free shipping on orders $50+ &nbsp;•&nbsp; New viral drops every week &nbsp;•&nbsp; Use code SQUISH10 for 10% off</div>
   <header class="site-header" style="position:static">
     <div class="wrap nav">
-      <a class="brand" href="${ROOT}index.html">
-        <span class="logo">🧸</span>
-        <span>KIDSE TOYS<small>Viral Squishies & Plush</small></span>
+      <a class="brand brand--img" href="${ROOT}index.html" aria-label="KIDSE TOYS home">
+        <img class="brand-logo-img" src="${ROOT}assets/img/logo.png" alt="KIDSE TOYS">
       </a>
       <nav class="nav-links" id="navLinks">
         ${navLink(ROOT+"index.html","Home","home")}
