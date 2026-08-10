@@ -522,3 +522,8 @@ h1, h2, h3, h4 { font-weight: 800; letter-spacing: -.01em; }
 /* Remove the white band directly above the footer: let the (dark) footer's
    own top padding provide the spacing instead of the section's bottom padding. */
 :where(.section, .section-sm, .legal, .page-head):has(+ #site-footer) { padding-bottom: 0; }
+
+/* Hero toy-shelf tiles now hold real product photos */
+.toy-shelf .toy { padding: 6px; overflow: hidden; }
+.toy-shelf .toy img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; display: block; }
+.toy-shelf .toy:hover img { transform: none; }
