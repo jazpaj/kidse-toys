@@ -7,7 +7,6 @@
 const BIZ = {
   dba: "KIDSE TOYS",
   legalName: "GLOBAL TRADE ALLIANCE LLC",
-  addr1: ["1712 Pioneer Ave Ste 7000", "Cheyenne, WY 82001"],
   addr2: ["333 South 34th St", "San Jose, CA 95116"],
   phone: "(415) 266-6284",
   phoneHref: "+14152666284",
@@ -89,7 +88,6 @@ function renderFooter(){
           <div class="foot-logo">KIDSE<sup>™</sup></div>
           <p class="foot-dba"><b>${BIZ.dba}</b><br>a DBA of ${BIZ.legalName}</p>
           <ul class="foot-contact">
-            <li><span class="ic">${icPin}</span><span>${BIZ.addr1[0]}, ${BIZ.addr1[1]}</span></li>
             <li><span class="ic">${icPin}</span><span>${BIZ.addr2[0]}, ${BIZ.addr2[1]}</span></li>
             <li><span class="ic">${icPhone}</span><a href="tel:${BIZ.phoneHref}">${BIZ.phone}</a></li>
             <li><span class="ic">${icClock}</span><span>Customer Service: Mon–Fri, 9AM–5PM PT</span></li>
@@ -117,9 +115,6 @@ function renderFooter(){
             <li><a href="${ROOT}bundles.html">Bundles &amp; Deals</a></li>
             <li><a href="mailto:${BIZ.email}">${BIZ.email}</a></li>
           </ul>
-          <a class="foot-social" href="https://www.tiktok.com/${BIZ.social}" target="_blank" rel="noopener">
-            <span class="ico-box">🎵</span> ${BIZ.social.toUpperCase()}
-          </a>
         </div>
       </div>
 
