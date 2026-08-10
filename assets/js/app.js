@@ -7,6 +7,7 @@
 const BIZ = {
   dba: "KIDSE TOYS",
   legalName: "GLOBAL TRADE ALLIANCE LLC",
+  addr1: ["1712 Pioneer Ave Ste 7000", "Cheyenne, WY 82001"],
   addr2: ["333 South 34th St", "San Jose, CA 95116"],
   phone: "(415) 266-6284",
   phoneHref: "+14152666284",
@@ -44,7 +45,7 @@ const cartTotal = () => readCart().reduce((s,l) => { const p = getProduct(l.id);
 /* ------------------------------------------------------------------ Header */
 function navLink(href, label, key){
   const active = (window.PAGE_KEY === key) ? " active" : "";
-  return `<a class="${active}" href="${ROOT}${href}">${label}</a>`;
+  return `<a class="${active}" href="${href}">${label}</a>`;
 }
 function renderHeader(){
   const el = document.getElementById("site-header");
@@ -58,10 +59,10 @@ function renderHeader(){
         <span>KIDSE TOYS<small>Viral Squishies & Plush</small></span>
       </a>
       <nav class="nav-links" id="navLinks">
-        ${navLink("index.html","Home","home")}
-        ${navLink("squishy.html","Squishy Toys","squishy")}
-        ${navLink("plush.html","Plush Toys","plush")}
-        ${navLink("bundles.html","Bundles","bundles")}
+        ${navLink(ROOT+"index.html","Home","home")}
+        ${navLink(ROOT+"squishy.html","Squishy Toys","squishy")}
+        ${navLink(ROOT+"plush.html","Plush Toys","plush")}
+        ${navLink(ROOT+"bundles.html","Bundles","bundles")}
         ${navLink(P+"about.html","About","about")}
         ${navLink(P+"contact.html","Contact","contact")}
       </nav>
@@ -101,6 +102,7 @@ function renderFooter(){
           <div class="foot-logo">KIDSE<sup>™</sup></div>
           <p class="foot-dba"><b>${BIZ.dba}</b><br>a DBA of ${BIZ.legalName}</p>
           <ul class="foot-contact">
+            <li><span class="ic">${icPin}</span><span>${BIZ.addr1[0]}, ${BIZ.addr1[1]}</span></li>
             <li><span class="ic">${icPin}</span><span>${BIZ.addr2[0]}, ${BIZ.addr2[1]}</span></li>
             <li><span class="ic">${icPhone}</span><a href="tel:${BIZ.phoneHref}">${BIZ.phone}</a></li>
             <li><span class="ic">${icClock}</span><span>Customer Service: Mon–Fri, 9AM–5PM PT</span></li>
@@ -110,12 +112,12 @@ function renderFooter(){
         <div class="footer-col">
           <h5>Legal</h5>
           <ul>
-            <li><a href="${ROOT}${P}privacy-policy.html">Privacy Policy</a></li>
-            <li><a href="${ROOT}${P}terms.html">Terms &amp; Conditions</a></li>
-            <li><a href="${ROOT}${P}subscription-agreement.html">Subscription Agreement</a></li>
-            <li><a href="${ROOT}${P}refund-policy.html">Refund Policy</a></li>
-            <li><a href="${ROOT}${P}shipping-policy.html">Fulfillment Policy</a></li>
-            <li><a href="${ROOT}${P}business-disclaimer.html">Business Disclaimer</a></li>
+            <li><a href="${P}privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="${P}terms.html">Terms &amp; Conditions</a></li>
+            <li><a href="${P}subscription-agreement.html">Subscription Agreement</a></li>
+            <li><a href="${P}refund-policy.html">Refund Policy</a></li>
+            <li><a href="${P}shipping-policy.html">Fulfillment Policy</a></li>
+            <li><a href="${P}business-disclaimer.html">Business Disclaimer</a></li>
           </ul>
         </div>
 
@@ -200,7 +202,7 @@ function updateCartUI(){
     foot.innerHTML = cart.length ? `
       <div class="row"><span>Subtotal</span><span>${fmt(cartTotal())}</span></div>
       <p style="font-size:.8rem;color:var(--muted);margin:0 0 14px">Shipping & taxes calculated at checkout.</p>
-      <a class="btn btn-primary btn-block btn-lg" href="${ROOT}${P}checkout.html">Checkout →</a>` : "";
+      <a class="btn btn-primary btn-block btn-lg" href="${P}checkout.html">Checkout →</a>` : "";
   }
   // live cart page
   if (typeof renderCartPage === "function") renderCartPage();
@@ -218,12 +220,12 @@ function catTag(p){ return p.cat==="squishy" ? "Squishy Toy" : p.cat==="plush" ?
 
 function cardHTML(p){
   return `<article class="card">
-    <a href="${ROOT}${P}product.html?id=${p.id}" class="card-media" style="${mediaStyle(p)}">
+    <a href="${P}product.html?id=${p.id}" class="card-media" style="${mediaStyle(p)}">
       ${badgeHTML(p)}${mediaInner(p)}
     </a>
     <div class="card-body">
       <span class="card-tag">${catTag(p)}</span>
-      <h3 class="card-title"><a href="${ROOT}${P}product.html?id=${p.id}">${p.name}</a></h3>
+      <h3 class="card-title"><a href="${P}product.html?id=${p.id}">${p.name}</a></h3>
       <p class="card-desc">${p.desc}</p>
       <div class="card-foot">
         <span class="price">${fmt(p.price)}</span>
