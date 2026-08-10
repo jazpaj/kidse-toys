@@ -83,6 +83,19 @@ function renderFooter(){
   el.innerHTML = `
   <footer class="site-footer">
     <div class="wrap">
+      <div class="foot-news">
+        <div class="foot-news-copy">
+          <h4>Join the KIDSE Club</h4>
+          <p>Early access to new drops, restock alerts &amp; a welcome discount.</p>
+        </div>
+        <form class="foot-news-form" data-demo="You're in the club! 🎉 Check your inbox.">
+          <input type="email" placeholder="you@email.com" aria-label="Email address" required>
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+        </form>
+      </div>
+
+      <div class="foot-rule"></div>
+
       <div class="footer-top">
         <div class="footer-brand">
           <div class="foot-logo">KIDSE<sup>™</sup></div>
