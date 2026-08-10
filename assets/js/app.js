@@ -78,43 +78,21 @@ function renderHeader(){
 function renderFooter(){
   const el = document.getElementById("site-footer");
   if (!el) return;
+  const icPin = `<svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 00-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>`;
+  const icPhone = `<svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>`;
+  const icClock = `<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16zm1-13h-2v6l5 3 1-1.7-4-2.3z"/></svg>`;
   el.innerHTML = `
   <footer class="site-footer">
     <div class="wrap">
       <div class="footer-top">
         <div class="footer-brand">
-          <a class="brand" href="${ROOT}index.html"><span class="logo">🧸</span><span style="color:#fff">KIDSE TOYS</span></a>
-          <p>The home of viral, squish-tested, hug-approved toys. Squishies and plush your feed keeps showing you — now on your shelf.</p>
-          <div class="footer-legal-info">
-            <b>${BIZ.dba}</b>
-            A DBA of ${BIZ.legalName}<br>
-            ${BIZ.addr1[0]}<br>${BIZ.addr1[1]}<br><br>
-            <b style="margin-top:4px">Address 2</b>
-            ${BIZ.addr2[0]}<br>${BIZ.addr2[1]}<br><br>
-            📞 <a href="tel:${BIZ.phoneHref}" style="color:#c2cbdd">${BIZ.phone}</a><br>
-            ✉️ <a href="mailto:${BIZ.email}" style="color:#c2cbdd">${BIZ.email}</a>
-          </div>
-        </div>
-
-        <div class="footer-col">
-          <h5>Shop</h5>
-          <ul>
-            <li><a href="${ROOT}squishy.html">Squishy Toys</a></li>
-            <li><a href="${ROOT}plush.html">Plush Toys</a></li>
-            <li><a href="${ROOT}bundles.html">Bundles & Deals</a></li>
-            <li><a href="${ROOT}index.html#bestsellers">Best Sellers</a></li>
-            <li><a href="${ROOT}${P}contact.html">Track My Order</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h5>Support</h5>
-          <ul>
-            <li><a href="${ROOT}${P}about.html">About Us</a></li>
-            <li><a href="${ROOT}${P}contact.html">Contact Us</a></li>
-            <li><a href="${ROOT}${P}faq.html">FAQ</a></li>
-            <li><a href="mailto:${BIZ.email}">${BIZ.email}</a></li>
-            <li><a href="tel:${BIZ.phoneHref}">${BIZ.phone}</a></li>
+          <div class="foot-logo">KIDSE<sup>™</sup></div>
+          <p class="foot-dba"><b>${BIZ.dba}</b><br>a DBA of ${BIZ.legalName}</p>
+          <ul class="foot-contact">
+            <li><span class="ic">${icPin}</span><span>${BIZ.addr1[0]}, ${BIZ.addr1[1]}</span></li>
+            <li><span class="ic">${icPin}</span><span>${BIZ.addr2[0]}, ${BIZ.addr2[1]}</span></li>
+            <li><span class="ic">${icPhone}</span><a href="tel:${BIZ.phoneHref}">${BIZ.phone}</a></li>
+            <li><span class="ic">${icClock}</span><span>Customer Service: Mon–Fri, 9AM–5PM PT</span></li>
           </ul>
         </div>
 
@@ -128,16 +106,41 @@ function renderFooter(){
             <li><a href="${ROOT}${P}shipping-policy.html">Fulfillment Policy</a></li>
             <li><a href="${ROOT}${P}business-disclaimer.html">Business Disclaimer</a></li>
           </ul>
-          <div class="footer-pay">
-            <span class="pay-badge">VISA</span><span class="pay-badge">MASTERCARD</span>
-            <span class="pay-badge">AMEX</span><span class="pay-badge">DISCOVER</span>
-          </div>
+        </div>
+
+        <div class="footer-col">
+          <h5>Shop</h5>
+          <ul>
+            <li><a href="${ROOT}squishy.html">Shop All Products</a></li>
+            <li><a href="${ROOT}squishy.html">Squishy Toys</a></li>
+            <li><a href="${ROOT}plush.html">Plush Toys</a></li>
+            <li><a href="${ROOT}bundles.html">Bundles &amp; Deals</a></li>
+            <li><a href="mailto:${BIZ.email}">${BIZ.email}</a></li>
+          </ul>
+          <a class="foot-social" href="https://www.tiktok.com/${BIZ.social}" target="_blank" rel="noopener">
+            <span class="ico-box">🎵</span> ${BIZ.social.toUpperCase()}
+          </a>
         </div>
       </div>
 
+      <div class="foot-rule"></div>
+
+      <div class="foot-secure">
+        <span class="foot-secure-label">Secure Checkout · SSL Encrypted</span>
+        <div class="foot-pays">
+          <span class="pay pay-visa">VISA</span>
+          <span class="pay pay-mc">MASTERCARD</span>
+          <span class="pay pay-amex">AMEX</span>
+          <span class="pay pay-disc">DISCOVER</span>
+          <span class="pay pay-ssl">🛡 SSL SECURED</span>
+        </div>
+      </div>
+
+      <div class="foot-rule"></div>
+
       <div class="footer-bottom">
-        <span>© ${new Date().getFullYear()} ${BIZ.dba} — ${BIZ.legalName}. All rights reserved.</span>
-        <span>🔒 Secure SSL checkout &nbsp;•&nbsp; Follow us ${BIZ.social}</span>
+        <span>Squish · Play · Repeat · © ${new Date().getFullYear()} ${BIZ.legalName}</span>
+        <span>All Rights Reserved.</span>
       </div>
     </div>
   </footer>`;

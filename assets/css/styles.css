@@ -41,6 +41,8 @@
   --maxw: 1200px;
   --font-head: 'Baloo 2', 'Fredoka', system-ui, sans-serif;
   --font-body: 'Nunito', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --footer-bg: #24304a;   /* original dark-navy footer color */
 }
 
 * { box-sizing: border-box; }
@@ -235,22 +237,36 @@ img { max-width: 100%; display: block; }
 .news-form input { flex:1; border:2px solid var(--line); border-radius: var(--radius-pill); padding: 13px 20px; font-family: var(--font-body); font-size:1rem; }
 .news-form input:focus { outline:none; border-color: var(--purple); }
 
-/* ---------- Footer ---------- */
-.site-footer { background: var(--ink); color:#c2cbdd; padding: 60px 0 26px; margin-top: 40px; }
-.footer-top { display:grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; }
-.footer-brand .brand { color:#fff; }
-.footer-brand p { color: #9aa6bd; font-size:.9rem; max-width: 320px; }
-.footer-legal-info { font-size:.82rem; line-height:1.7; color:#9aa6bd; margin-top:14px; }
-.footer-legal-info b { color:#fff; display:block; font-family:var(--font-head); letter-spacing:.02em; }
-.footer-col h5 { color:#fff; font-family: var(--font-head); font-weight:600; font-size:1rem; margin:0 0 16px; letter-spacing:.02em; }
+/* ---------- Footer (professional, Albatuna-style monospace) ---------- */
+.site-footer { background: var(--footer-bg); color:#c3c9f5; padding: 58px 0 26px; margin-top: 40px; font-family: var(--font-mono); }
+.footer-top { display:grid; grid-template-columns: 1.7fr 1fr 1fr; gap: 44px; }
+.foot-logo { font-family: var(--font-head); font-weight:800; font-size:1.9rem; color:#fff; letter-spacing:.03em; line-height:1; }
+.foot-logo sup { font-size:.5rem; margin-left:2px; opacity:.85; }
+.foot-dba { font-size:.78rem; line-height:1.75; color:#c3c9f5; margin:18px 0 20px; text-transform:uppercase; letter-spacing:.03em; }
+.foot-dba b { color:#fff; }
+.foot-contact { list-style:none; padding:0; margin:0; }
+.foot-contact li { display:flex; gap:11px; align-items:flex-start; font-size:.76rem; line-height:1.5; padding:7px 0; color:#c3c9f5; text-transform:uppercase; letter-spacing:.02em; }
+.foot-contact li a { color:#c3c9f5; }
+.foot-contact li a:hover { color:#fff; }
+.foot-contact .ic { flex:none; color: var(--lemon); margin-top:1px; }
+.foot-contact .ic svg { width:15px; height:15px; fill:currentColor; display:block; }
+.footer-col h5 { color: var(--lemon); font-family: var(--font-mono); font-weight:600; font-size:.8rem; text-transform:uppercase; letter-spacing:.2em; margin:0 0 22px; }
 .footer-col ul { list-style:none; padding:0; margin:0; }
-.footer-col li { margin-bottom:10px; }
-.footer-col a { color:#aeb9cf; font-size:.9rem; transition: color .15s; }
+.footer-col li { margin-bottom:15px; }
+.footer-col a { color:#dfe3ff; font-size:.8rem; text-transform:uppercase; letter-spacing:.04em; transition: color .15s; }
 .footer-col a:hover { color:#fff; }
-.footer-pay { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
-.pay-badge { background:#324060; border:1px solid #3f4e70; border-radius:8px; padding:6px 10px; font-size:.72rem; font-weight:700; color:#c2cbdd; font-family:var(--font-head); letter-spacing:.03em; }
-.footer-bottom { border-top:1px solid #38455e; margin-top: 44px; padding-top: 22px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:center; font-size:.82rem; color:#8592ab; }
-.footer-bottom a { color:#8592ab; } .footer-bottom a:hover { color:#fff; }
+.foot-social { display:inline-flex; align-items:center; gap:11px; margin-top:6px; border:1.5px solid rgba(255,255,255,.35); border-radius:9px; padding:11px 15px; color:#fff; font-size:.76rem; letter-spacing:.06em; transition: .15s; }
+.foot-social:hover { border-color:#fff; background:rgba(255,255,255,.08); }
+.foot-social .ico-box { width:26px; height:26px; background:#fff; border-radius:6px; display:grid; place-items:center; color:var(--footer-bg); font-size:1rem; }
+.foot-rule { height:1px; background:rgba(255,255,255,.16); margin:40px 0; }
+.foot-secure { background:#fff; border-radius:12px; padding:15px 22px; display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; }
+.foot-secure-label { color: var(--footer-bg); font-weight:600; font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; }
+.foot-pays { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.pay { border:1.5px solid #e3e6f4; border-radius:7px; padding:7px 10px; font-size:.66rem; font-weight:700; letter-spacing:.03em; background:#fff; min-width:46px; text-align:center; }
+.pay-visa { color:#1a1f71; } .pay-mc { color:#eb001b; } .pay-amex { color:#2e77bc; } .pay-disc { color:#e8721f; }
+.pay-ssl { background: var(--bg-tint); border-color:#cdd7f5; color: var(--footer-bg); display:inline-flex; align-items:center; gap:6px; }
+.footer-bottom { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:center; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:#9aa2e6; }
+.footer-bottom a { color:#9aa2e6; } .footer-bottom a:hover { color:#fff; }
 
 /* ---------- Cart drawer ---------- */
 .drawer-overlay { position:fixed; inset:0; background: rgba(28,18,48,.45); opacity:0; visibility:hidden; transition: .25s; z-index: 90; }
