@@ -59,6 +59,15 @@
             <div class="form-field"><label>State</label><input required></div>
             <div class="form-field"><label>ZIP</label><input required></div>
           </div>
+
+          <h3 style="margin-top:24px">Payment 💳</h3>
+          <div class="form-field"><label>Card number</label><input id="cardNum" inputmode="numeric" autocomplete="cc-number" placeholder="4242 4242 4242 4242" maxlength="19" required></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="form-field"><label>Expiry (MM/YY)</label><input id="cardExp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" maxlength="5" required></div>
+            <div class="form-field"><label>CVC</label><input id="cardCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4" required></div>
+          </div>
+          <div class="form-field"><label>Name on card</label><input autocomplete="cc-name" placeholder="Jane Doe" required></div>
+          <p style="font-size:.8rem;color:var(--muted);margin:2px 0 0">🔒 Test mode — use card <b>4242&nbsp;4242&nbsp;4242&nbsp;4242</b>, any future date &amp; any CVC. No real payment is processed.</p>
         </form>
       </div>
 
@@ -192,6 +201,19 @@
         window.scrollTo({top:0, behavior:"smooth"});
       }, 2600);
     });
+
+    // Card input formatting (visual only — nothing is transmitted or stored)
+    const cardNum=document.getElementById("cardNum"), cardExp=document.getElementById("cardExp"), cardCvc=document.getElementById("cardCvc");
+    cardNum && cardNum.addEventListener("input", e=>{
+      let v=e.target.value.replace(/\D/g,"").slice(0,16);
+      e.target.value=v.replace(/(.{4})/g,"$1 ").trim();
+    });
+    cardExp && cardExp.addEventListener("input", e=>{
+      let v=e.target.value.replace(/\D/g,"").slice(0,4);
+      if(v.length>=3) v=v.slice(0,2)+"/"+v.slice(2);
+      e.target.value=v;
+    });
+    cardCvc && cardCvc.addEventListener("input", e=>{ e.target.value=e.target.value.replace(/\D/g,"").slice(0,4); });
 
     document.addEventListener("DOMContentLoaded", renderSummary);
     window.renderCartPage = renderSummary; // refresh when cart changes
