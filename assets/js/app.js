@@ -218,7 +218,11 @@ function mediaInner(p){ return p.img ? `<img src="${ROOT}${p.img}" alt="${p.name
 function catTag(p){ return p.cat==="squishy" ? "Squishy Toy" : p.cat==="plush" ? "Plush Toy" : "Bundle"; }
 
 function cardHTML(p){
-  return `<article class="card">
+  const sold = !!p.soldOut;
+  const addBtn = sold
+    ? `<button class="add-btn" title="Sold out" disabled aria-label="Sold out">+</button>`
+    : `<button class="add-btn" title="Add to cart" onclick="addToCart('${p.id}')">+</button>`;
+  return `<article class="card${sold ? ' sold' : ''}">
     <a href="${P}product.html?id=${p.id}" class="card-media" style="${mediaStyle(p)}">
       ${badgeHTML(p)}${mediaInner(p)}
     </a>
@@ -228,7 +232,7 @@ function cardHTML(p){
       <p class="card-desc">${p.desc}</p>
       <div class="card-foot">
         <span class="price">${fmt(p.price)}</span>
-        <button class="add-btn" title="Add to cart" onclick="addToCart('${p.id}')">+</button>
+        ${addBtn}
       </div>
     </div>
   </article>`;
@@ -286,10 +290,11 @@ function initProductPage(){
       <p style="margin-top:14px">${p.desc}</p>
       ${bundleList}
       <div class="pdp-actions">
-        <div class="qty" style="padding:8px 14px">
+        ${p.soldOut ? `<button class="btn btn-lg btn-block" disabled style="background:var(--line);color:var(--muted);cursor:not-allowed;box-shadow:none">Sold Out</button>`
+        : `<div class="qty" style="padding:8px 14px">
           <button onclick="pdpQty(-1)">−</button><span id="pdpQty">1</span><button onclick="pdpQty(1)">+</button>
         </div>
-        <button class="btn btn-primary btn-lg" onclick="addToCart('${p.id}', pdpQtyVal())">Add to Cart</button>
+        <button class="btn btn-primary btn-lg" onclick="addToCart('${p.id}', pdpQtyVal())">Add to Cart</button>`}
       </div>
       <div class="pdp-meta">
         <div><b>Category</b><span>${catTag(p)}</span></div>
