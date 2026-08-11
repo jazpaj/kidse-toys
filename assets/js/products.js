@@ -1,5 +1,5 @@
 /* =====================================================================
-   KIDSE TOYS — Product Catalog
+   Kidse Toys — Product Catalog
    ---------------------------------------------------------------------
    To use YOUR OWN photos later: add an `img` property to any product,
    e.g.  img: "assets/img/hello-duck.jpg"  — the site will use it

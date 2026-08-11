@@ -535,3 +535,6 @@ h1, h2, h3, h4 { font-weight: 800; letter-spacing: -.01em; }
 .card.sold .card-media .emoji { opacity: .8; }
 .card.sold .add-btn, .add-btn:disabled { background: var(--line); color: var(--muted); border-color: var(--line); box-shadow: 0 4px 0 rgba(36,48,74,.12); cursor: not-allowed; transform: none; }
 .card.sold .add-btn:hover, .add-btn:disabled:hover { background: var(--line); transform: none; }
+
+/* Show the brand name in the footer DBA line in title case (Kidse Toys) */
+.foot-dba b { text-transform: none; }

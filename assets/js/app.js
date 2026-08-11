@@ -1,11 +1,11 @@
 /* =====================================================================
-   KIDSE TOYS — App engine
+   Kidse Toys — App engine
    Renders shared header/footer, product grids, product pages, and the
    localStorage-backed cart. One source of truth for nav + legal footer.
    ===================================================================== */
 
 const BIZ = {
-  dba: "KIDSE TOYS",
+  dba: "Kidse Toys",
   legalName: "GLOBAL TRADE ALLIANCE LLC",
   addr1: ["1712 Pioneer Ave Ste 7000", "Cheyenne, WY 82001"],
   addr2: ["333 South 34th St", "San Jose, CA 95116"],
@@ -54,8 +54,8 @@ function renderHeader(){
   <div class="announce">🚚 Free shipping on orders $50+ &nbsp;•&nbsp; New viral drops every week &nbsp;•&nbsp; Use code SQUISH10 for 10% off</div>
   <header class="site-header" style="position:static">
     <div class="wrap nav">
-      <a class="brand brand--img" href="${ROOT}index.html" aria-label="KIDSE TOYS home">
-        <img class="brand-logo-img" src="${ROOT}assets/img/logo.png" alt="KIDSE TOYS">
+      <a class="brand brand--img" href="${ROOT}index.html" aria-label="Kidse Toys home">
+        <img class="brand-logo-img" src="${ROOT}assets/img/logo.png" alt="Kidse Toys">
       </a>
       <nav class="nav-links" id="navLinks">
         ${navLink(ROOT+"index.html","Home","home")}
@@ -85,7 +85,7 @@ function renderFooter(){
     <div class="wrap">
       <div class="foot-news">
         <div class="foot-news-copy">
-          <h4>Join the KIDSE Club</h4>
+          <h4>Join the Kidse Club</h4>
           <p>Early access to new drops, restock alerts &amp; a welcome discount.</p>
         </div>
         <form class="foot-news-form" data-demo="You're in the club! 🎉 Check your inbox.">
@@ -277,7 +277,7 @@ function initProductPage(){
   const id = new URLSearchParams(location.search).get("id");
   const p = getProduct(id);
   if(!p){ mount.innerHTML = `<div class="center" style="grid-column:1/-1"><h1>Product not found 🫥</h1><a class="btn btn-primary" href="${ROOT}index.html">Back to shop</a></div>`; return; }
-  document.title = `${p.name} — KIDSE TOYS`;
+  document.title = `${p.name} — Kidse Toys`;
   const packRow = p.packInfo ? `<div><b>Includes</b><span>${p.packInfo}</span></div>` : "";
   const bundleList = p.includes ? `<ul class="bundle-list" style="margin:18px 0">${p.includes.map(i=>`<li>${i}</li>`).join("")}</ul>` : "";
   mount.innerHTML = `
