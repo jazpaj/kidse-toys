@@ -61,13 +61,27 @@
           </div>
 
           <h3 style="margin-top:24px">Payment 💳</h3>
-          <div class="form-field"><label>Card number</label><input id="cardNum" inputmode="numeric" autocomplete="cc-number" placeholder="4242 4242 4242 4242" maxlength="19" required></div>
+          <div class="form-field"><label>Card number</label><input id="cardNum" inputmode="numeric" autocomplete="cc-number" placeholder="Card Number" maxlength="19" required></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
             <div class="form-field"><label>Expiry (MM/YY)</label><input id="cardExp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" maxlength="5" required></div>
             <div class="form-field"><label>CVC</label><input id="cardCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4" required></div>
           </div>
           <div class="form-field"><label>Name on card</label><input autocomplete="cc-name" placeholder="Jane Doe" required></div>
-          <p style="font-size:.8rem;color:var(--muted);margin:2px 0 0">🔒 Test mode — use card <b>4242&nbsp;4242&nbsp;4242&nbsp;4242</b>, any future date &amp; any CVC. No real payment is processed.</p>
+
+          <h3 style="margin-top:24px">Billing address</h3>
+          <label style="display:flex;gap:11px;align-items:center;margin-bottom:12px;font-size:.92rem;color:var(--ink-soft);cursor:pointer">
+            <input type="checkbox" id="sameAsShip" checked style="width:22px;height:22px;flex:none;accent-color:var(--purple);cursor:pointer">
+            <span>Same as shipping address</span>
+          </label>
+          <div id="billingFields" style="display:none">
+            <div class="form-field"><label>Full name</label><input placeholder="Jane Doe"></div>
+            <div class="form-field"><label>Address</label><input placeholder="123 Main St"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+              <div class="form-field"><label>City</label><input></div>
+              <div class="form-field"><label>State</label><input></div>
+              <div class="form-field"><label>ZIP</label><input></div>
+            </div>
+          </div>
         </form>
       </div>
 
@@ -214,6 +228,12 @@
       e.target.value=v;
     });
     cardCvc && cardCvc.addEventListener("input", e=>{ e.target.value=e.target.value.replace(/\D/g,"").slice(0,4); });
+
+    // Billing address: toggle fields when "same as shipping" changes
+    const sameAsShip=document.getElementById("sameAsShip"), billingFields=document.getElementById("billingFields");
+    sameAsShip && sameAsShip.addEventListener("change", ()=>{
+      billingFields.style.display = sameAsShip.checked ? "none" : "block";
+    });
 
     document.addEventListener("DOMContentLoaded", renderSummary);
     window.renderCartPage = renderSummary; // refresh when cart changes
