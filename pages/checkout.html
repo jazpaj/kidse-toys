@@ -12,6 +12,20 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <link rel="manifest" href="../site.webmanifest">
+  <style>
+    .ck-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:9px; }
+    .promo-row { display:flex; gap:8px; margin:14px 0 6px; }
+    .promo-row input { flex:1; border:2.5px solid var(--line); border-radius:14px; padding:11px 16px; font-family:var(--font-body); font-size:1rem; text-transform:uppercase; }
+    .promo-row input:focus { outline:none; border-color:var(--purple); }
+    .agree { display:flex; gap:11px; align-items:flex-start; margin:16px 2px; font-size:.92rem; color:var(--ink-soft); cursor:pointer; }
+    .agree input { width:22px; height:22px; margin-top:1px; flex:none; accent-color:var(--purple); cursor:pointer; }
+    .agree a { color:var(--purple); text-decoration:underline; }
+    .btn-pay { background:linear-gradient(135deg,#ff8a5c,#ff5d73); color:#fff; box-shadow:0 6px 0 #c94f5f; }
+    .btn-pay:hover { transform:translateY(-2px); box-shadow:0 8px 0 #c94f5f; }
+    .btn-pay:active { transform:translateY(3px); box-shadow:0 2px 0 #c94f5f; }
+    .btn-pay:disabled { opacity:.5; cursor:not-allowed; transform:none; box-shadow:0 6px 0 #c94f5f; }
+    .bill-note { background:var(--pink-soft); border-left:4px solid var(--pink); border-radius:12px; padding:12px 16px; margin-top:14px; font-size:.92rem; color:var(--ink); }
+  </style>
 </head>
 <body>
   <div id="site-header"></div>
@@ -27,7 +41,7 @@
     <div class="wrap contact-grid">
       <!-- Details -->
       <div>
-        <form data-demo="Demo only — connect a payment provider to accept real orders." id="checkoutForm">
+        <form id="checkoutForm">
           <h3>Contact</h3>
           <div class="form-field"><label>Email</label><input type="email" required placeholder="you@email.com"></div>
           <h3 style="margin-top:24px">Shipping address</h3>
@@ -41,7 +55,6 @@
           <div class="callout" style="background:var(--bg-tint);border-left:4px solid var(--purple);border-radius:12px;padding:14px 18px">
             🔒 This is a front-end demo store. To accept real payments, connect a provider such as Stripe, Shopify Payments, or PayPal. No card details are collected here.
           </div>
-          <button class="btn btn-primary btn-lg btn-block" type="submit" style="margin-top:8px">Place order (demo)</button>
         </form>
       </div>
 
@@ -50,13 +63,34 @@
         <div class="info-card">
           <h4>Order summary</h4>
           <div id="summaryLines"></div>
-          <div style="border-top:1px solid var(--line);margin-top:14px;padding-top:14px">
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Subtotal</span><b id="sumSubtotal">$0</b></div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;color:var(--ink-soft)"><span>Shipping</span><span id="sumShip">—</span></div>
-            <div style="display:flex;justify-content:space-between;font-family:var(--font-head);font-size:1.3rem;margin-top:10px"><span>Total</span><b id="sumTotal">$0</b></div>
+
+          <!-- Discount code -->
+          <div class="promo-row">
+            <input id="promoInput" placeholder="Discount code" aria-label="Discount code">
+            <button type="button" id="promoBtn" class="btn btn-dark" style="padding:11px 20px">Apply</button>
+          </div>
+          <p id="promoMsg" style="font-size:.82rem;margin:0 0 8px;min-height:1.1em"></p>
+          <p id="freeShipHint" style="font-size:.82rem;color:var(--purple);margin:0 0 10px;font-weight:600"></p>
+
+          <div style="border-top:1px solid var(--line);margin-top:6px;padding-top:14px">
+            <div class="ck-row"><span>Subtotal</span><b id="sumSubtotal">$0.00</b></div>
+            <div class="ck-row" id="discountRow" style="display:none;color:var(--mint);font-weight:600"><span>Discount (<span id="discCode"></span>)</span><b id="sumDiscount">-$0.00</b></div>
+            <div class="ck-row" style="color:var(--ink-soft)"><span>Shipping <small id="shipNote" style="color:var(--muted)"></small></span><span id="sumShip">—</span></div>
+            <div class="ck-row" style="font-family:var(--font-head);font-size:1.4rem;margin-top:10px"><span>Total</span><b id="sumTotal">$0.00</b></div>
           </div>
         </div>
-        <a class="btn btn-ghost btn-block" href="../squishy.html">← Continue shopping</a>
+
+        <div class="bill-note">💳 Billed as <b>KIDSE TOYS</b> on your statement.</div>
+
+        <label class="agree">
+          <input type="checkbox" id="agree">
+          <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>, <a href="refund-policy.html" target="_blank" rel="noopener">Refund Policy</a>, and <a href="privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+        </label>
+
+        <button id="payBtn" type="button" class="btn btn-lg btn-block btn-pay" disabled>🔒 PAY <span id="payTotal">$0.00</span></button>
+        <p id="payHint" style="text-align:center;color:var(--muted);font-size:.85rem;margin-top:10px">Please check the box above to complete your order.</p>
+
+        <a class="btn btn-ghost btn-block" href="../squishy.html" style="margin-top:12px">← Continue shopping</a>
       </div>
     </div>
   </section>
@@ -66,24 +100,75 @@
   <script src="../assets/js/products.js"></script>
   <script src="../assets/js/app.js"></script>
   <script>
+    const money = n => "$" + Number(n || 0).toFixed(2);
+    const SHIP_FLAT = 10;        // $10 standard (3-day)
+    const FREE_SHIP_MIN = 50;    // free over $50
+    const PROMOS = { "SQUISH10": 0.10 };  // 10% off
+    let discountRate = 0, appliedCode = "";
+
     function renderSummary(){
       const cart = readCart();
       const box = document.getElementById("summaryLines");
-      if(!cart.length){ box.innerHTML = `<p style="color:var(--muted)">Your cart is empty. <a href="../squishy.html" style="color:var(--purple)">Add some toys →</a></p>`; }
-      else {
+      if(!cart.length){
+        box.innerHTML = `<p style="color:var(--muted)">Your cart is empty. <a href="../squishy.html" style="color:var(--purple)">Add some toys →</a></p>`;
+      } else {
         box.innerHTML = cart.map(l=>{const p=getProduct(l.id); if(!p) return ""; return `
           <div style="display:flex;gap:12px;align-items:center;padding:8px 0">
             <div style="width:44px;height:44px;border-radius:10px;overflow:hidden;display:grid;place-items:center;font-size:1.4rem;background:${p.img?'#f4f0ff':gradOf(p)}">${p.img?`<img src="${ROOT}${p.img}" alt="" style="width:100%;height:100%;object-fit:cover">`:p.emoji}</div>
             <div style="flex:1;font-size:.9rem"><b style="font-family:var(--font-head)">${p.name}</b><br><span style="color:var(--muted)">Qty ${l.qty}</span></div>
-            <span style="font-weight:600">${fmt(p.price*l.qty)}</span>
+            <span style="font-weight:600">${money(p.price*l.qty)}</span>
           </div>`;}).join("");
       }
       const sub = cartTotal();
-      const ship = sub>=50 || sub===0 ? 0 : 6.95;
-      document.getElementById("sumSubtotal").textContent = fmt(sub);
-      document.getElementById("sumShip").textContent = sub===0 ? "—" : (ship===0 ? "FREE" : fmt(ship));
-      document.getElementById("sumTotal").textContent = fmt(sub+ship);
+      const discount = +(sub * discountRate).toFixed(2);
+      const afterDisc = sub - discount;
+      const ship = sub === 0 ? 0 : (sub >= FREE_SHIP_MIN ? 0 : SHIP_FLAT);
+      const total = afterDisc + ship;
+
+      document.getElementById("sumSubtotal").textContent = money(sub);
+      const dRow = document.getElementById("discountRow");
+      if(discount > 0){ dRow.style.display="flex"; document.getElementById("discCode").textContent=appliedCode; document.getElementById("sumDiscount").textContent="-"+money(discount); }
+      else dRow.style.display="none";
+
+      document.getElementById("shipNote").textContent = sub===0 ? "" : (ship===0 ? "· 3-day delivery" : "· 3-day delivery");
+      document.getElementById("sumShip").textContent = sub===0 ? "—" : (ship===0 ? "FREE" : money(ship));
+      document.getElementById("sumTotal").textContent = money(total);
+      document.getElementById("payTotal").textContent = money(total);
+
+      // free-shipping progress hint
+      const hint = document.getElementById("freeShipHint");
+      if(sub > 0 && sub < FREE_SHIP_MIN) hint.textContent = `🚚 Add ${money(FREE_SHIP_MIN - sub)} more for FREE shipping!`;
+      else if(sub >= FREE_SHIP_MIN) hint.textContent = `🎉 You’ve unlocked FREE shipping!`;
+      else hint.textContent = "";
     }
+
+    // Discount code
+    document.getElementById("promoBtn").addEventListener("click", ()=>{
+      const msg = document.getElementById("promoMsg");
+      const code = document.getElementById("promoInput").value.trim().toUpperCase();
+      if(!code){ discountRate=0; appliedCode=""; msg.style.color="var(--muted)"; msg.textContent="Enter a code to apply a discount."; renderSummary(); return; }
+      if(PROMOS[code]){ discountRate=PROMOS[code]; appliedCode=code; msg.style.color="var(--mint)"; msg.textContent=`✓ Code ${code} applied — ${Math.round(PROMOS[code]*100)}% off!`; }
+      else { discountRate=0; appliedCode=""; msg.style.color="var(--pink)"; msg.textContent="✕ That code isn’t valid. Try SQUISH10."; }
+      renderSummary();
+    });
+    document.getElementById("promoInput").addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); document.getElementById("promoBtn").click(); }});
+
+    // Agree gate
+    const agree = document.getElementById("agree"), payBtn = document.getElementById("payBtn"), payHint = document.getElementById("payHint");
+    agree.addEventListener("change", ()=>{
+      payBtn.disabled = !agree.checked;
+      payHint.textContent = agree.checked ? "" : "Please check the box above to complete your order.";
+    });
+
+    // Pay (demo)
+    payBtn.addEventListener("click", ()=>{
+      if(!agree.checked) return;
+      if(!readCart().length){ toast("Your cart is empty 🫧"); return; }
+      const form = document.getElementById("checkoutForm");
+      if(form && !form.reportValidity()) return;
+      toast("Order placed! 🎉 (demo)");
+    });
+
     document.addEventListener("DOMContentLoaded", renderSummary);
     window.renderCartPage = renderSummary; // refresh when cart changes
   </script>
