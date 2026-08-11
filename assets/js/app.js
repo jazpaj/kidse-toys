@@ -287,7 +287,7 @@ function initProductPage(){
       <span class="pdp-tag">${catTag(p)}${p.collection?" · "+p.collection:""}</span>
       <h1>${p.name}</h1>
       <div class="price">${fmt(p.price)}</div>
-      <p style="margin-top:14px">${p.desc}</p>
+      <div class="pdp-desc">${p.long ? p.long : `<p>${p.desc}</p>`}</div>
       ${bundleList}
       <div class="pdp-actions">
         ${p.soldOut ? `<button class="btn btn-lg btn-block" disabled style="background:var(--line);color:var(--muted);cursor:not-allowed;box-shadow:none">Sold Out</button>`
