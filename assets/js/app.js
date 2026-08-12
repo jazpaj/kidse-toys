@@ -15,6 +15,11 @@ const BIZ = {
   social: "@kidsetoys"
 };
 
+/* Escape user-supplied text before putting it in HTML */
+function escapeHTML(s){
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#x27;"}[c]));
+}
+
 /* Work out a relative path prefix so links work from / and /pages/ */
 const IN_PAGES = location.pathname.includes("/pages/");
 const ROOT = IN_PAGES ? "../" : "";
@@ -250,15 +255,32 @@ function initCollectionPage(cat){
   const grid = document.getElementById("productGrid");
   if(!grid) return;
   let base = cat === "all" ? PRODUCTS : productsByCat(cat);
-  let priceFilter = "all", sort = "featured";
+  let priceFilter = "all", sort = "featured", query = "";
   function apply(){
     let list = base.slice();
     if (priceFilter !== "all") list = list.filter(p => p.price === Number(priceFilter));
+    if (query){
+      const q = query.toLowerCase();
+      list = list.filter(p =>
+        (p.name||"").toLowerCase().includes(q) ||
+        (p.collection||"").toLowerCase().includes(q) ||
+        (p.desc||"").toLowerCase().includes(q)
+      );
+    }
     if (sort === "low") list.sort((a,b)=>a.price-b.price);
     else if (sort === "high") list.sort((a,b)=>b.price-a.price);
     else if (sort === "name") list.sort((a,b)=>a.name.localeCompare(b.name));
-    renderGrid(list, grid);
-    const cnt = document.getElementById("resultCount"); if(cnt) cnt.textContent = `${list.length} product${list.length!==1?"s":""}`;
+    if (list.length){
+      renderGrid(list, grid);
+    } else {
+      grid.innerHTML = query
+        ? `<p style="grid-column:1/-1;text-align:center;color:var(--muted)">No products match “${escapeHTML(query)}”. Try another search.</p>`
+        : `<p style="grid-column:1/-1;text-align:center;color:var(--muted)">No products match that filter yet.</p>`;
+    }
+    const cnt = document.getElementById("resultCount");
+    if(cnt) cnt.textContent = query
+      ? `${list.length} result${list.length!==1?"s":""} for “${query}”`
+      : `${list.length} product${list.length!==1?"s":""}`;
   }
   document.querySelectorAll("[data-price]").forEach(btn => btn.addEventListener("click", () => {
     document.querySelectorAll("[data-price]").forEach(b=>b.classList.remove("active"));
@@ -266,6 +288,19 @@ function initCollectionPage(cat){
   }));
   const sortSel = document.getElementById("sortSelect");
   if (sortSel) sortSel.addEventListener("change", e => { sort = e.target.value; apply(); });
+  const searchInput = document.getElementById("searchInput");
+  const searchClear = document.getElementById("searchClear");
+  if (searchInput){
+    searchInput.addEventListener("input", e => {
+      query = e.target.value.trim();
+      if (searchClear) searchClear.style.display = query ? "flex" : "none";
+      apply();
+    });
+    searchInput.addEventListener("keydown", e => { if(e.key === "Escape"){ searchInput.value=""; query=""; if(searchClear) searchClear.style.display="none"; apply(); } });
+  }
+  if (searchClear) searchClear.addEventListener("click", () => {
+    searchInput.value=""; query=""; searchClear.style.display="none"; apply(); searchInput.focus();
+  });
   apply();
 }
 
