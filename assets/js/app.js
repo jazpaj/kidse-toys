@@ -11,7 +11,7 @@ const BIZ = {
   addr2: ["333 South 34th St", "San Jose, CA 95116"],
   phone: "(415) 266-6284",
   phoneHref: "+14152666284",
-  email: "support@kidsetoys.com",
+  email: "help@kidsetoys.com",
   social: "@kidsetoys"
 };
 
