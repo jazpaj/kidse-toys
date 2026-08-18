@@ -301,6 +301,13 @@ img { max-width: 100%; display: block; }
 .foot-contact li a:hover { color:#fff; }
 .foot-contact .ic { flex:none; color: var(--lemon); margin-top:1px; }
 .foot-contact .ic svg { width:15px; height:15px; fill:currentColor; display:block; }
+.foot-social { display:flex; align-items:center; gap:12px; margin-top:20px; flex-wrap:wrap; }
+.foot-social-label { font-family: var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.2em; color: var(--lemon); }
+.foot-social-btn { display:inline-flex; align-items:center; gap:9px; padding:8px 14px; border-radius: var(--radius-pill);
+  background: rgba(255,255,255,.08); color:#fff; font-family: var(--font-head); font-weight:600; font-size:.82rem;
+  border:1px solid rgba(255,255,255,.16); transition: background .15s, border-color .15s; }
+.foot-social-btn:hover { background: linear-gradient(120deg,#feda75,#d62976,#962fbf); border-color: transparent; color:#fff; }
+.foot-social-btn svg { width:18px; height:18px; flex:none; }
 .footer-col h5 { color: var(--lemon); font-family: var(--font-mono); font-weight:600; font-size:.8rem; text-transform:uppercase; letter-spacing:.2em; margin:0 0 22px; }
 .footer-col ul { list-style:none; padding:0; margin:0; }
 .footer-col li { margin-bottom:15px; }
