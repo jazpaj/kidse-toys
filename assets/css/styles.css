@@ -305,8 +305,8 @@ img { max-width: 100%; display: block; }
 .foot-social-label { font-family: var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.2em; color: var(--lemon); }
 .foot-social-btn { display:inline-flex; align-items:center; gap:9px; padding:8px 14px; border-radius: var(--radius-pill);
   background: rgba(255,255,255,.08); color:#fff; font-family: var(--font-head); font-weight:600; font-size:.82rem;
-  border:1px solid rgba(255,255,255,.16); transition: background .15s, border-color .15s; }
-.foot-social-btn:hover { background: linear-gradient(120deg,#feda75,#d62976,#962fbf); border-color: transparent; color:#fff; }
+  border:1px solid rgba(255,255,255,.16); transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+.foot-social-btn:hover { background: linear-gradient(135deg,#515bd4 0%,#8134af 38%,#dd2a7b 68%,#f58529 100%); border-color: transparent; color:#fff; box-shadow: 0 6px 18px rgba(221,42,123,.35); transform: translateY(-1px); }
 .foot-social-btn svg { width:18px; height:18px; flex:none; }
 .footer-col h5 { color: var(--lemon); font-family: var(--font-mono); font-weight:600; font-size:.8rem; text-transform:uppercase; letter-spacing:.2em; margin:0 0 22px; }
 .footer-col ul { list-style:none; padding:0; margin:0; }
