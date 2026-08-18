@@ -118,6 +118,7 @@ function renderFooter(){
           <ul>
             <li><a href="${P}privacy-policy.html">Privacy Policy</a></li>
             <li><a href="${P}terms.html">Terms &amp; Conditions</a></li>
+            <li><a href="${P}sms-terms.html">SMS Terms &amp; Privacy</a></li>
             <li><a href="${P}refund-policy.html">Refund Policy</a></li>
             <li><a href="${P}shipping-policy.html">Fulfillment Policy</a></li>
             <li><a href="${P}business-disclaimer.html">Business Disclaimer</a></li>
