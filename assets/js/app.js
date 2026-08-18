@@ -114,7 +114,10 @@ function renderFooter(){
           </ul>
           <div class="foot-social">
             <span class="foot-social-label">Follow us</span>
-            <a class="foot-social-btn" href="https://www.instagram.com/thekidsetoys" target="_blank" rel="noopener noreferrer" aria-label="Kidse Toys on Instagram">${icInsta}<span>@thekidsetoys</span></a>
+            <a class="foot-social-btn" href="https://www.instagram.com/thekidsetoys" target="_blank" rel="noopener noreferrer" aria-label="Kidse Toys on Instagram">
+              <span class="foot-ig-badge">${icInsta}</span>
+              <span class="foot-ig-handle">@thekidsetoys</span>
+            </a>
           </div>
         </div>
 

@@ -303,11 +303,18 @@ img { max-width: 100%; display: block; }
 .foot-contact .ic svg { width:15px; height:15px; fill:currentColor; display:block; }
 .foot-social { display:flex; align-items:center; gap:12px; margin-top:20px; flex-wrap:wrap; }
 .foot-social-label { font-family: var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.2em; color: var(--lemon); }
-.foot-social-btn { display:inline-flex; align-items:center; gap:9px; padding:8px 14px; border-radius: var(--radius-pill);
-  background: rgba(255,255,255,.08); color:#fff; font-family: var(--font-head); font-weight:600; font-size:.82rem;
-  border:1px solid rgba(255,255,255,.16); transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
-.foot-social-btn:hover { background: linear-gradient(135deg,#515bd4 0%,#8134af 38%,#dd2a7b 68%,#f58529 100%); border-color: transparent; color:#fff; box-shadow: 0 6px 18px rgba(221,42,123,.35); transform: translateY(-1px); }
-.foot-social-btn svg { width:18px; height:18px; flex:none; }
+.foot-social-btn { display:inline-flex; align-items:center; gap:11px; padding:5px 20px 5px 5px; border-radius: var(--radius-pill);
+  border:2px solid transparent;
+  background: linear-gradient(#fff,#fff) padding-box,
+             linear-gradient(120deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5) border-box;
+  color:#2b2b3a; font-family: var(--font-head); font-weight:700; font-size:.9rem;
+  transition: box-shadow .2s ease, transform .2s ease; }
+.foot-social-btn:hover { box-shadow: 0 7px 20px rgba(214,41,118,.4); transform: translateY(-1px); }
+.foot-ig-badge { width:34px; height:34px; flex:none; border-radius:50%;
+  background: linear-gradient(120deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);
+  display:grid; place-items:center; color:#fff; }
+.foot-ig-badge svg { width:20px; height:20px; display:block; }
+.foot-ig-handle { line-height:1; }
 .footer-col h5 { color: var(--lemon); font-family: var(--font-mono); font-weight:600; font-size:.8rem; text-transform:uppercase; letter-spacing:.2em; margin:0 0 22px; }
 .footer-col ul { list-style:none; padding:0; margin:0; }
 .footer-col li { margin-bottom:15px; }
