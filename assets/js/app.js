@@ -110,7 +110,7 @@ function renderFooter(){
             <li><span class="ic">${icPin}</span><span>${BIZ.addr1[0]}, ${BIZ.addr1[1]}</span></li>
             <li><span class="ic">${icPin}</span><span>${BIZ.addr2[0]}, ${BIZ.addr2[1]}</span></li>
             <li><span class="ic">${icPhone}</span><a href="tel:${BIZ.phoneHref}">${BIZ.phone}</a></li>
-            <li><span class="ic">${icClock}</span><span>Customer Service: 7 Days a Week, 9AM–5PM EST</span></li>
+            <li><span class="ic">${icClock}</span><span>Customer Service: 7 Days a Week, 8AM–Midnight EST</span></li>
           </ul>
           <div class="foot-social">
             <span class="foot-social-label">Follow us</span>
