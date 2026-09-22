@@ -46,6 +46,17 @@
     @keyframes pop { 0% { transform:scale(.4); opacity:0; } 60% { transform:scale(1.12); } 100% { transform:scale(1); opacity:1; } }
     .ck-success h2 { margin:0 0 10px; }
     .ck-success .ord { font-family:var(--font-mono); color:var(--muted); font-size:.85rem; margin-top:6px; }
+    /* Order receipt */
+    .ck-receipt { text-align:left; max-width:400px; margin:26px auto 4px; border:2px solid var(--line); border-radius:16px; overflow:hidden; background:#fbfaff; }
+    .ck-receipt-head { background:var(--ink); color:#fff; font-family:var(--font-head); font-weight:700; font-size:.82rem; letter-spacing:.14em; text-transform:uppercase; padding:11px 18px; }
+    .ck-receipt-row { display:flex; justify-content:space-between; align-items:baseline; gap:16px; padding:13px 18px; }
+    .ck-receipt-row + .ck-receipt-row { border-top:1px dashed var(--line); }
+    .ck-receipt-row .rl { color:var(--muted); font-size:.82rem; text-transform:uppercase; letter-spacing:.05em; }
+    .ck-receipt-row .rv { font-family:var(--font-mono); font-weight:600; color:var(--ink); font-size:.92rem; text-align:right; word-break:break-all; }
+    .ck-receipt-row.total { background:#f0fbf4; }
+    .ck-receipt-row.total .rl { color:var(--ink); font-weight:700; letter-spacing:.03em; }
+    .ck-receipt-row.total .rv { font-family:var(--font-head); font-size:1.35rem; color:#1f9d57; }
+    .ck-paid-badge { display:inline-flex; align-items:center; gap:6px; margin-top:14px; padding:5px 14px; border-radius:999px; background:#e7f8ee; color:#1f9d57; font-family:var(--font-head); font-weight:700; font-size:.82rem; letter-spacing:.03em; }
     /* NMI Collect.js hosted fields — styled to match the site inputs */
     .nmi-field { border:2.5px solid var(--line); border-radius:14px; padding:0 14px; height:52px; background:#fff; overflow:hidden; transition:border-color .15s; }
     .nmi-field.nmi-focus { border-color:var(--purple); }
@@ -260,14 +271,23 @@
     }
     function showSuccess(orderNo, totalStr, txnId){
       clearCartUI();
+      const dateStr = new Date().toLocaleDateString("en-US", { year:"numeric", month:"short", day:"numeric" });
       const grid = document.querySelector(".contact-grid");
       if(grid) grid.innerHTML = `
         <div class="ck-success" style="grid-column:1/-1">
           <div class="ck-check">✓</div>
           <h2>Thank you! Your order is confirmed 🎉</h2>
           <p>We've received your order and a confirmation email with your tracking details is on its way to your inbox.</p>
-          <p class="ord">Order number: <b>${orderNo}</b> &nbsp;·&nbsp; Total paid: <b>${totalStr}</b>${txnId?` &nbsp;·&nbsp; Txn: <b>${txnId}</b>`:``}</p>
-          <div style="margin-top:24px"><a class="btn btn-primary btn-lg" href="../index.html">Continue shopping</a></div>
+          <span class="ck-paid-badge">✓ Payment successful</span>
+          <div class="ck-receipt">
+            <div class="ck-receipt-head">Order receipt</div>
+            <div class="ck-receipt-row"><span class="rl">Order number</span><span class="rv">${orderNo}</span></div>
+            <div class="ck-receipt-row"><span class="rl">Date</span><span class="rv">${dateStr}</span></div>
+            ${txnId?`<div class="ck-receipt-row"><span class="rl">Transaction ID</span><span class="rv">${txnId}</span></div>`:``}
+            <div class="ck-receipt-row total"><span class="rl">Total paid</span><span class="rv">${totalStr}</span></div>
+          </div>
+          <p style="color:var(--muted);font-size:.82rem;margin-top:14px">Billed as <b>KIDSE TOYS</b> on your statement.</p>
+          <div style="margin-top:20px"><a class="btn btn-primary btn-lg" href="../index.html">Continue shopping</a></div>
         </div>`;
       window.scrollTo({top:0, behavior:"smooth"});
     }
