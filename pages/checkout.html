@@ -46,6 +46,11 @@
     @keyframes pop { 0% { transform:scale(.4); opacity:0; } 60% { transform:scale(1.12); } 100% { transform:scale(1); opacity:1; } }
     .ck-success h2 { margin:0 0 10px; }
     .ck-success .ord { font-family:var(--font-mono); color:var(--muted); font-size:.85rem; margin-top:6px; }
+    /* NMI Collect.js hosted fields — styled to match the site inputs */
+    .nmi-field { border:2.5px solid var(--line); border-radius:14px; padding:0 14px; height:52px; background:#fff; overflow:hidden; transition:border-color .15s; }
+    .nmi-field.nmi-focus { border-color:var(--purple); }
+    .nmi-field.nmi-invalid { border-color:var(--pink); }
+    .nmi-field iframe { width:100% !important; height:100% !important; border:0; display:block; }
   </style>
 </head>
 <body>
@@ -64,8 +69,8 @@
       <div>
         <form id="checkoutForm">
           <h3>Contact</h3>
-          <div class="form-field"><label>Email</label><input type="email" required placeholder="you@email.com"></div>
-          <div class="form-field"><label>Phone (for order updates)</label><input type="tel" inputmode="tel" autocomplete="tel" placeholder="(555) 123-4567"></div>
+          <div class="form-field"><label>Email</label><input id="ckEmail" type="email" required placeholder="you@email.com"></div>
+          <div class="form-field"><label>Phone (for order updates)</label><input id="ckPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(555) 123-4567"></div>
           <div class="sms-optin">
             <label class="sms-optin-check">
               <input type="checkbox" id="smsOptin">
@@ -75,21 +80,33 @@
             <a href="sms-terms.html" target="_blank" rel="noopener">SMS Terms &amp; Privacy</a>
           </div>
           <h3 style="margin-top:24px">Shipping address</h3>
-          <div class="form-field"><label>Full name</label><input required placeholder="Jane Doe"></div>
-          <div class="form-field"><label>Address</label><input required placeholder="123 Main St"></div>
+          <div class="form-field"><label>Full name</label><input id="shipName" required placeholder="Jane Doe"></div>
+          <div class="form-field"><label>Address</label><input id="shipAddr" required placeholder="123 Main St"></div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
-            <div class="form-field"><label>City</label><input required></div>
-            <div class="form-field"><label>State</label><input required></div>
-            <div class="form-field"><label>ZIP</label><input required></div>
+            <div class="form-field"><label>City</label><input id="shipCity" required></div>
+            <div class="form-field"><label>State</label><input id="shipState" required></div>
+            <div class="form-field"><label>ZIP</label><input id="shipZip" required></div>
           </div>
 
           <h3 style="margin-top:24px">Payment 💳</h3>
-          <div class="form-field"><label>Card number</label><input id="cardNum" inputmode="numeric" autocomplete="cc-number" placeholder="Card Number" maxlength="19" required></div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-            <div class="form-field"><label>Expiry (MM/YY)</label><input id="cardExp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" maxlength="5" required></div>
-            <div class="form-field"><label>CVC</label><input id="cardCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4" required></div>
+          <!-- Demo fields (shown on GitHub/Vercel/local — no real payment) -->
+          <div id="demoCardFields">
+            <div class="form-field"><label>Card number</label><input id="cardNum" inputmode="numeric" autocomplete="cc-number" placeholder="Card Number" maxlength="19" required></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="form-field"><label>Expiry (MM/YY)</label><input id="cardExp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" maxlength="5" required></div>
+              <div class="form-field"><label>CVC</label><input id="cardCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4" required></div>
+            </div>
           </div>
-          <div class="form-field"><label>Name on card</label><input autocomplete="cc-name" placeholder="Jane Doe" required></div>
+          <!-- NMI Collect.js secure fields (shown on kidsetoys.com — hosted by NMI, PCI-safe) -->
+          <div id="nmiCardFields" style="display:none">
+            <div class="form-field"><label>Card number</label><div id="nmi-ccnumber" class="nmi-field"></div></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="form-field"><label>Expiry (MM/YY)</label><div id="nmi-ccexp" class="nmi-field"></div></div>
+              <div class="form-field"><label>CVC</label><div id="nmi-cvv" class="nmi-field"></div></div>
+            </div>
+          </div>
+          <div class="form-field"><label>Name on card</label><input id="cardName" autocomplete="cc-name" placeholder="Jane Doe" required></div>
+          <p id="nmiSecureNote" style="display:none;font-size:.82rem;color:var(--muted);margin:4px 2px 0">🔒 Secure payment via NMI — card details are encrypted and never touch our servers.</p>
 
           <h3 style="margin-top:24px">Billing address</h3>
           <label style="display:flex;gap:11px;align-items:center;margin-bottom:12px;font-size:.92rem;color:var(--ink-soft);cursor:pointer">
@@ -139,6 +156,7 @@
 
         <button id="payBtn" type="button" class="btn btn-lg btn-block btn-pay" disabled>🔒 PAY <span id="payTotal">$0.00</span></button>
         <p id="payHint" style="text-align:center;color:var(--muted);font-size:.85rem;margin-top:10px">Please check the box above to complete your order.</p>
+        <p id="payError" style="display:none;text-align:center;color:var(--pink);font-weight:600;font-size:.9rem;margin-top:10px"></p>
 
         <a class="btn btn-ghost btn-block" href="../squishy.html" style="margin-top:12px">← Continue shopping</a>
       </div>
@@ -210,34 +228,122 @@
       payHint.textContent = agree.checked ? "" : "Please check the box above to complete your order.";
     });
 
-    // Pay -> processing spinner -> order confirmation
+    /* =====================================================================
+       Payment: REAL NMI on kidsetoys.com, DEMO everywhere else.
+       - Live domain: NMI Collect.js tokenizes the card (card data never
+         touches our server) and posts the token to /api/charge.php, which
+         holds the Security Key server-side and recomputes the amount.
+       - Other hosts (github.io / vercel.app / localhost): the original
+         demo flow (spinner -> confirmation), no real payment.
+       ===================================================================== */
+    const NMI_LIVE = /(^|\.)kidsetoys\.com$/i.test(location.hostname);
+    const NMI_TOKENIZATION_KEY = "PASTE_YOUR_TOKENIZATION_PUBLIC_KEY_HERE"; // NMI Collect.js public key (safe in browser)
+    const CHARGE_URL = "/api/charge.php";
+    let nmiReady = false;
+
+    function totalText(){ return document.getElementById("sumTotal")?.textContent || "$0.00"; }
+    function setProcessing(on){
+      payBtn.disabled = on;
+      payBtn.innerHTML = on ? `<span class="spinner"></span> Processing…` : `🔒 PAY <span id="payTotal">${totalText()}</span>`;
+      payHint.textContent = on ? "Securely processing your payment — please don't close this window." : "";
+      if(on) document.getElementById("payError").style.display = "none";
+    }
+    function payFail(msg){
+      setProcessing(false); payBtn.disabled = false;
+      const e = document.getElementById("payError");
+      e.textContent = "⚠️ " + msg; e.style.display = "block";
+    }
+    function clearCartUI(){
+      localStorage.setItem("kidse_cart_v1", "[]");
+      if (typeof updateCartUI === "function") { try { updateCartUI(); } catch(e){} }
+      document.querySelectorAll("#cartCount").forEach(el=> el.textContent = "0");
+    }
+    function showSuccess(orderNo, totalStr, txnId){
+      clearCartUI();
+      const grid = document.querySelector(".contact-grid");
+      if(grid) grid.innerHTML = `
+        <div class="ck-success" style="grid-column:1/-1">
+          <div class="ck-check">✓</div>
+          <h2>Thank you! Your order is confirmed 🎉</h2>
+          <p>We've received your order and a confirmation email with your tracking details is on its way to your inbox.</p>
+          <p class="ord">Order number: <b>${orderNo}</b> &nbsp;·&nbsp; Total paid: <b>${totalStr}</b>${txnId?` &nbsp;·&nbsp; Txn: <b>${txnId}</b>`:``}</p>
+          <div style="margin-top:24px"><a class="btn btn-primary btn-lg" href="../index.html">Continue shopping</a></div>
+        </div>`;
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
     payBtn.addEventListener("click", ()=>{
       if(!agree.checked) return;
       if(!readCart().length){ toast("Your cart is empty 🫧"); return; }
       const form = document.getElementById("checkoutForm");
       if(form && !form.reportValidity()) return;
-      const total = document.getElementById("payTotal").textContent;
-      payBtn.disabled = true;
-      payBtn.innerHTML = `<span class="spinner"></span> Processing…`;
-      payHint.textContent = "Securely processing your payment — please don't close this window.";
-      setTimeout(()=>{
-        const orderNo = "KT-" + Date.now().toString().slice(-6);
-        // clear cart + refresh header count
-        localStorage.setItem("kidse_cart_v1", "[]");
-        if (typeof updateCartUI === "function") { try { updateCartUI(); } catch(e){} }
-        document.querySelectorAll("#cartCount").forEach(e=> e.textContent = "0");
-        const grid = document.querySelector(".contact-grid");
-        if(grid) grid.innerHTML = `
-          <div class="ck-success" style="grid-column:1/-1">
-            <div class="ck-check">✓</div>
-            <h2>Thank you! Your order is confirmed 🎉</h2>
-            <p>We've received your order and a confirmation email with your tracking details is on its way to your inbox.</p>
-            <p class="ord">Order number: <b>${orderNo}</b> &nbsp;·&nbsp; Total paid: <b>${total}</b></p>
-            <div style="margin-top:24px"><a class="btn btn-primary btn-lg" href="../index.html">Continue shopping</a></div>
-          </div>`;
-        window.scrollTo({top:0, behavior:"smooth"});
-      }, 2600);
+      setProcessing(true);
+      if (NMI_LIVE) {
+        if (!nmiReady || typeof CollectJS === "undefined") { payFail("Payment form is still loading — please try again in a moment."); return; }
+        try { CollectJS.startPaymentRequest(); }
+        catch(e){ payFail("Could not start secure payment. Please refresh and try again."); }
+      } else {
+        // DEMO: simulate processing -> confirmation
+        setTimeout(()=> showSuccess("KT-"+Date.now().toString().slice(-6), totalText(), null), 2600);
+      }
     });
+
+    // Called by Collect.js once the card is tokenized (live mode only)
+    function nmiCallback(response){
+      if(!response || !response.token){ payFail("We couldn't read your card. Please re-enter your details."); return; }
+      const val = id => (document.getElementById(id)?.value || "").trim();
+      const sp = val("shipName").split(/\s+/);
+      const payload = {
+        token: response.token,
+        items: readCart().map(l=>({id:l.id, qty:l.qty})),
+        promo: appliedCode || "",
+        email: val("ckEmail"), phone: val("ckPhone"),
+        firstName: sp.shift() || "", lastName: sp.join(" "),
+        address: val("shipAddr"), city: val("shipCity"), state: val("shipState"), zip: val("shipZip")
+      };
+      fetch(CHARGE_URL, { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(payload) })
+        .then(r=> r.json())
+        .then(res=>{
+          if(res && res.approved){ showSuccess(res.orderId, "$"+Number(res.amount).toFixed(2), res.transactionId); }
+          else { payFail((res && res.message) ? res.message : "Your payment was declined. Please try another card."); }
+        })
+        .catch(()=> payFail("Network error while processing payment. Please try again."));
+    }
+
+    // Load + configure NMI Collect.js only on the live domain
+    if (NMI_LIVE) {
+      document.getElementById("demoCardFields").style.display = "none";
+      document.getElementById("nmiCardFields").style.display = "block";
+      document.getElementById("nmiSecureNote").style.display = "block";
+      // hidden demo inputs must not block HTML5 validation
+      ["cardNum","cardExp","cardCvc"].forEach(idn=>{ const el=document.getElementById(idn); if(el){ el.required=false; el.disabled=true; } });
+      const s = document.createElement("script");
+      s.src = "https://payline.transactiongateway.com/token/Collect.js";
+      s.setAttribute("data-tokenization-key", NMI_TOKENIZATION_KEY);
+      s.onload = ()=>{
+        try {
+          CollectJS.configure({
+            variant: "inline",
+            styleSniffer: true,
+            fields: {
+              ccnumber: { selector: "#nmi-ccnumber", placeholder: "Card Number" },
+              ccexp:    { selector: "#nmi-ccexp", placeholder: "MM / YY" },
+              cvv:      { selector: "#nmi-cvv", placeholder: "CVV" }
+            },
+            callback: nmiCallback,
+            timeoutDuration: 15000,
+            timeoutCallback: ()=> payFail("Card entry timed out. Please re-enter and try again."),
+            fieldsAvailableCallback: ()=>{ nmiReady = true; },
+            validationCallback: (field, ok, msg)=>{
+              const map = { ccnumber:"nmi-ccnumber", ccexp:"nmi-ccexp", cvv:"nmi-cvv" };
+              const el = document.getElementById(map[field]); if(el) el.classList.toggle("nmi-invalid", !ok);
+            }
+          });
+        } catch(e){ payFail("Payment form failed to initialise. Please refresh."); }
+      };
+      s.onerror = ()=>{ payFail("Secure payment library failed to load. Please refresh."); };
+      document.head.appendChild(s);
+    }
 
     // Card input formatting (visual only — nothing is transmitted or stored)
     const cardNum=document.getElementById("cardNum"), cardExp=document.getElementById("cardExp"), cardCvc=document.getElementById("cardCvc");
