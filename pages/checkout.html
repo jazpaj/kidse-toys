@@ -336,7 +336,10 @@
             fieldsAvailableCallback: ()=>{ nmiReady = true; },
             validationCallback: (field, ok, msg)=>{
               const map = { ccnumber:"nmi-ccnumber", ccexp:"nmi-ccexp", cvv:"nmi-cvv" };
-              const el = document.getElementById(map[field]); if(el) el.classList.toggle("nmi-invalid", !ok);
+              const el = document.getElementById(map[field]); if(!el) return;
+              // don't flag empty/untouched fields red — only genuinely invalid input
+              const emptyish = !ok && /empty|required|blank/i.test(msg || "");
+              el.classList.toggle("nmi-invalid", !ok && !emptyish);
             }
           });
         } catch(e){ payFail("Payment form failed to initialise. Please refresh."); }
