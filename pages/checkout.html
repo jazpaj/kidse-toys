@@ -247,10 +247,11 @@
        - Other hosts (github.io / vercel.app / localhost): the original
          demo flow (spinner -> confirmation), no real payment.
        ===================================================================== */
-    const NMI_LIVE = /(^|\.)kidsetoys\.com$/i.test(location.hostname);
+    const ON_LIVE_DOMAIN = /(^|\.)kidsetoys\.com$/i.test(location.hostname);
     const NMI_TOKENIZATION_KEY = "v68t49-x427SQ-TKDj8d-GCgfT3"; // NMI Collect.js public key (safe in browser)
     const CHARGE_URL = "/api/charge.php";
     let nmiReady = false;
+    let paymentMode = "demo";   // "demo" | "real" — auto-detected from the server on the live domain
 
     function totalText(){ return document.getElementById("sumTotal")?.textContent || "$0.00"; }
     function setProcessing(on){
@@ -298,12 +299,12 @@
       const form = document.getElementById("checkoutForm");
       if(form && !form.reportValidity()) return;
       setProcessing(true);
-      if (NMI_LIVE) {
+      if (paymentMode === "real") {
         if (!nmiReady || typeof CollectJS === "undefined") { payFail("Payment form is still loading — please try again in a moment."); return; }
         try { CollectJS.startPaymentRequest(); }
         catch(e){ payFail("Could not start secure payment. Please refresh and try again."); }
       } else {
-        // DEMO: simulate processing -> confirmation
+        // DEMO: simulate processing -> confirmation (no real charge)
         setTimeout(()=> showSuccess("KT-"+Date.now().toString().slice(-6), totalText(), null), 2600);
       }
     });
@@ -325,13 +326,17 @@
         .then(r=> r.json())
         .then(res=>{
           if(res && res.approved){ showSuccess(res.orderId, "$"+Number(res.amount).toFixed(2), res.transactionId); }
+          else if(res && res.keyError){ // payments switched off on the server -> auto fall back to demo confirmation
+            setTimeout(()=> showSuccess("KT-"+Date.now().toString().slice(-6), totalText(), null), 700);
+          }
           else { payFail((res && res.message) ? res.message : "Your payment was declined. Please try another card."); }
         })
         .catch(()=> payFail("Network error while processing payment. Please try again."));
     }
 
-    // Load + configure NMI Collect.js only on the live domain
-    if (NMI_LIVE) {
+    // Switch the card section into REAL (NMI) mode + load Collect.js
+    function enterRealMode(){
+      paymentMode = "real";
       document.getElementById("demoCardFields").style.display = "none";
       document.getElementById("nmiCardFields").style.display = "block";
       document.getElementById("nmiSecureNote").style.display = "block";
@@ -375,6 +380,16 @@
       };
       s.onerror = ()=>{ payFail("Secure payment library failed to load. Please refresh."); };
       document.head.appendChild(s);
+    }
+
+    // AUTO-SWITCH: on the live domain, ask the server whether real payments are configured.
+    //   keys active  -> real NMI checkout
+    //   keys off/blank, or endpoint unreachable -> stay in demo mode (no error, no real charge)
+    if (ON_LIVE_DOMAIN) {
+      fetch(CHARGE_URL + "?probe=1", { method:"GET", cache:"no-store" })
+        .then(r=> r.json())
+        .then(st=>{ if(st && st.live === true){ enterRealMode(); } /* else: keys off -> demo */ })
+        .catch(()=>{ /* endpoint missing/unreachable -> demo */ });
     }
 
     // Card input formatting (visual only — nothing is transmitted or stored)
