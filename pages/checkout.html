@@ -180,8 +180,7 @@
   <script src="../assets/js/app.js"></script>
   <script>
     const money = n => "$" + Number(n || 0).toFixed(2);
-    const SHIP_FLAT = 10;        // $10 standard (3-day)
-    const FREE_SHIP_MIN = 50;    // free over $50
+    const SHIP_FLAT = 0;         // free shipping on all orders
     const PROMOS = { "SQUISH10": 0.10 };  // 10% off
     let discountRate = 0, appliedCode = "";
 
@@ -201,7 +200,7 @@
       const sub = cartTotal();
       const discount = +(sub * discountRate).toFixed(2);
       const afterDisc = sub - discount;
-      const ship = sub === 0 ? 0 : (sub >= FREE_SHIP_MIN ? 0 : SHIP_FLAT);
+      const ship = SHIP_FLAT;
       const total = afterDisc + ship;
 
       document.getElementById("sumSubtotal").textContent = money(sub);
@@ -209,16 +208,14 @@
       if(discount > 0){ dRow.style.display="flex"; document.getElementById("discCode").textContent=appliedCode; document.getElementById("sumDiscount").textContent="-"+money(discount); }
       else dRow.style.display="none";
 
-      document.getElementById("shipNote").textContent = sub===0 ? "" : (ship===0 ? "· 3-day delivery" : "· 3-day delivery");
-      document.getElementById("sumShip").textContent = sub===0 ? "—" : (ship===0 ? "FREE" : money(ship));
+      document.getElementById("shipNote").textContent = sub===0 ? "" : "· 3-day delivery";
+      document.getElementById("sumShip").textContent = sub===0 ? "—" : "FREE";
       document.getElementById("sumTotal").textContent = money(total);
       document.getElementById("payTotal").textContent = money(total);
 
-      // free-shipping progress hint
+      // free-shipping banner
       const hint = document.getElementById("freeShipHint");
-      if(sub > 0 && sub < FREE_SHIP_MIN) hint.textContent = `🚚 Add ${money(FREE_SHIP_MIN - sub)} more for FREE shipping!`;
-      else if(sub >= FREE_SHIP_MIN) hint.textContent = `🎉 You’ve unlocked FREE shipping!`;
-      else hint.textContent = "";
+      hint.textContent = sub > 0 ? `🚚 FREE shipping on your order — no minimum!` : "";
     }
 
     // Discount code

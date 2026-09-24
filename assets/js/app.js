@@ -56,7 +56,7 @@ function renderHeader(){
   const el = document.getElementById("site-header");
   if (!el) return;
   el.innerHTML = `
-  <div class="announce">🚚 Free shipping on orders $50+ &nbsp;•&nbsp; New viral drops every week &nbsp;•&nbsp; Use code SQUISH10 for 10% off</div>
+  <div class="announce">🚚 FREE shipping on every order &nbsp;•&nbsp; New viral drops every week &nbsp;•&nbsp; Use code SQUISH10 for 10% off</div>
   <header class="site-header" style="position:static">
     <div class="wrap nav">
       <a class="brand brand--img" href="${ROOT}index.html" aria-label="Kidse Toys home">
@@ -213,7 +213,7 @@ function updateCartUI(){
       : `<div class="empty-cart"><div class="big">🫧</div><p>Your cart is empty.<br>Let's fix that!</p><a class="btn btn-primary" href="${ROOT}squishy.html" onclick="closeDrawer()">Shop Squishies</a></div>`;
     foot.innerHTML = cart.length ? `
       <div class="row"><span>Subtotal</span><span>${fmt(cartTotal())}</span></div>
-      <p style="font-size:.8rem;color:var(--muted);margin:0 0 14px">Shipping & taxes calculated at checkout.</p>
+      <p style="font-size:.8rem;color:var(--muted);margin:0 0 14px">Free shipping on every order · taxes calculated at checkout.</p>
       <a class="btn btn-primary btn-block btn-lg" href="${P}checkout.html">Checkout →</a>` : "";
   }
   // live cart page
@@ -342,7 +342,7 @@ function initProductPage(){
       <div class="pdp-meta">
         <div><b>Category</b><span>${catTag(p)}</span></div>
         ${packRow}
-        <div><b>Shipping</b><span>Ships in 1–2 business days · Free over $50</span></div>
+        <div><b>Shipping</b><span>Ships in 1–2 business days · Always free</span></div>
         <div><b>Ages</b><span>6+ · Not for children under 3 (small parts)</span></div>
         <div><b>Returns</b><span>30-day satisfaction guarantee</span></div>
       </div>
