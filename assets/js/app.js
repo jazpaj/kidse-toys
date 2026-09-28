@@ -66,6 +66,7 @@ function renderHeader(){
         ${navLink(ROOT+"index.html","Home","home")}
         ${navLink(ROOT+"squishy.html","Squishy Toys","squishy")}
         ${navLink(ROOT+"plush.html","Plush Toys","plush")}
+        ${navLink(ROOT+"halloween.html","🎃 Halloween","halloween")}
         ${navLink(ROOT+"bundles.html","Bundles","bundles")}
         ${navLink(P+"about.html","About","about")}
         ${navLink(P+"contact.html","Contact","contact")}
@@ -139,6 +140,7 @@ function renderFooter(){
             <li><a href="${ROOT}squishy.html">Shop All Products</a></li>
             <li><a href="${ROOT}squishy.html">Squishy Toys</a></li>
             <li><a href="${ROOT}plush.html">Plush Toys</a></li>
+            <li><a href="${ROOT}halloween.html">Halloween Collection</a></li>
             <li><a href="${ROOT}bundles.html">Bundles &amp; Deals</a></li>
             <li><a href="mailto:${BIZ.email}">${BIZ.email}</a></li>
           </ul>
@@ -221,19 +223,36 @@ function updateCartUI(){
 }
 
 /* ------------------------------------------------------------------ Product cards */
+/* October exclusives: `drop` is an ISO date. Until that day arrives the
+   product is visible but not orderable, and its badge shows the drop date. */
+function dropPending(p){
+  if(!p.drop) return false;
+  const today = new Date(); today.setHours(0,0,0,0);
+  return new Date(p.drop + "T00:00:00") > today;
+}
+function dropLabel(p){
+  const d = new Date(p.drop + "T00:00:00");
+  return "Drops " + d.toLocaleDateString("en-US", { month:"short", day:"numeric" });
+}
+
 function badgeHTML(p){
+  if(dropPending(p)) return `<span class="badge limited">${dropLabel(p)}</span>`;
   const map = { new:["new","New"], hot:["hot","Bestseller"], limited:["limited","Limited"], sold:["sold","Sold Out"] };
   if(!p.badge || !map[p.badge]) return "";
   return `<span class="badge ${map[p.badge][0]}">${map[p.badge][1]}</span>`;
 }
 function mediaStyle(p){ return p.img ? `background:#f6f3ff` : `background:${gradOf(p)}`; }
 function mediaInner(p){ return p.img ? `<img src="${ROOT}${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover">` : `<span class="emoji">${p.emoji}</span>`; }
-function catTag(p){ return p.cat==="squishy" ? "Squishy Toy" : p.cat==="plush" ? "Plush Toy" : "Bundle"; }
+function catTag(p){ return p.cat==="squishy" ? "Squishy Toy" : p.cat==="plush" ? "Plush Toy" : p.cat==="halloween" ? "Halloween Collection" : "Bundle"; }
+function catPage(p){ return p.cat==="plush" ? "plush" : p.cat==="bundle" ? "bundles" : p.cat==="halloween" ? "halloween" : "squishy"; }
+function catCrumb(p){ return p.cat==="halloween" ? "Halloween Collection" : catTag(p)+"s"; }
 
 function cardHTML(p){
-  const sold = !!p.soldOut;
+  const pending = dropPending(p);
+  const sold = !!p.soldOut || pending;
+  const offLabel = pending ? dropLabel(p) : "Sold out";
   const addBtn = sold
-    ? `<button class="add-btn" title="Sold out" disabled aria-label="Sold out">+</button>`
+    ? `<button class="add-btn" title="${offLabel}" disabled aria-label="${offLabel}">+</button>`
     : `<button class="add-btn" title="Add to cart" onclick="addToCart('${p.id}')">+</button>`;
   return `<article class="card${sold ? ' sold' : ''}">
     <a href="${P}product.html?id=${p.id}" class="card-media" style="${mediaStyle(p)}">
@@ -322,18 +341,24 @@ function initProductPage(){
   if(!p){ mount.innerHTML = `<div class="center" style="grid-column:1/-1"><h1>Product not found 🫥</h1><a class="btn btn-primary" href="${ROOT}index.html">Back to shop</a></div>`; return; }
   document.title = `${p.name} — Kidse Toys`;
   const packRow = p.packInfo ? `<div><b>Includes</b><span>${p.packInfo}</span></div>` : "";
+  const availRow = p.drop
+    ? `<div><b>Availability</b><span>${dropPending(p) ? dropLabel(p).replace("Drops","Exclusive drop —") + ", one run only" : "Released — limited stock, never restocked"}</span></div>`
+    : p.cat === "halloween"
+      ? `<div><b>Availability</b><span>Live all October · back in the vault November 1</span></div>`
+      : "";
   const bundleList = p.includes ? `<ul class="bundle-list" style="margin:18px 0">${p.includes.map(i=>`<li>${i}</li>`).join("")}</ul>` : "";
   mount.innerHTML = `
     <div class="pdp-media" style="${mediaStyle(p)}">${badgeHTML(p)}${p.img?mediaInner(p):`<span class="emoji">${p.emoji}</span>`}</div>
     <div>
-      <div class="breadcrumbs"><a href="${ROOT}index.html">Home</a> / <a href="${ROOT}${p.cat==='plush'?'plush':p.cat==='bundle'?'bundles':'squishy'}.html">${catTag(p)}s</a> / ${p.name}</div>
-      <span class="pdp-tag">${catTag(p)}${p.collection?" · "+p.collection:""}</span>
+      <div class="breadcrumbs"><a href="${ROOT}index.html">Home</a> / <a href="${ROOT}${catPage(p)}.html">${catCrumb(p)}</a> / ${p.name}</div>
+      <span class="pdp-tag">${catTag(p)}${p.collection && p.collection !== catTag(p) ? " · "+p.collection : ""}</span>
       <h1>${p.name}</h1>
       <div class="price">${fmt(p.price)}</div>
       <div class="pdp-desc">${p.long ? p.long : `<p>${p.desc}</p>`}</div>
       ${bundleList}
       <div class="pdp-actions">
         ${p.soldOut ? `<button class="btn btn-lg btn-block" disabled style="background:var(--line);color:var(--muted);cursor:not-allowed;box-shadow:none">Sold Out</button>`
+        : dropPending(p) ? `<button class="btn btn-lg btn-block" disabled style="background:var(--line);color:var(--muted);cursor:not-allowed;box-shadow:none">${dropLabel(p)}</button>`
         : `<div class="qty" style="padding:8px 14px">
           <button onclick="pdpQty(-1)">−</button><span id="pdpQty">1</span><button onclick="pdpQty(1)">+</button>
         </div>
@@ -341,6 +366,7 @@ function initProductPage(){
       </div>
       <div class="pdp-meta">
         <div><b>Category</b><span>${catTag(p)}</span></div>
+        ${availRow}
         ${packRow}
         <div><b>Shipping</b><span>Ships in 1–2 business days · Always free</span></div>
         <div><b>Ages</b><span>6+ · Not for children under 3 (small parts)</span></div>

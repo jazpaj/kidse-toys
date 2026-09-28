@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-K4H2H6V9SN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-K4H2H6V9SN');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halloween Collection — Kidse Toys</title>
+  <meta name="description" content="The Kidse Toys Halloween Collection: glow-in-the-dark ghost squishers, giant jack-o'-lantern plush, candy corn stacks and the haunted house collector tin. Live all October, free shipping on every order.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <section class="page-head">
+    <div class="wrap ph-grid">
+      <div>
+        <div class="breadcrumbs"><a href="index.html">Home</a> / Halloween Collection</div>
+        <span class="eyebrow">🎃 Live all October</span>
+        <h1>Halloween Collection</h1>
+        <p class="lead">Glow-in-the-dark ghosts, giant jack-o'-lanterns, candy corn stacks and one very haunted collector tin. Every piece is orderable all month — then it goes back in the vault until next October.</p>
+      </div>
+      <div class="ph-media" style="background:linear-gradient(150deg,#ffe3cc,#ffab73);display:grid;place-items:center;font-size:5rem">🎃</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="notice">🕯️ The whole collection is live every day in October — no drop times, no waiting. Free shipping on every order.</div>
+      <div class="filters">
+        <div class="search-box">
+          <span class="search-ico" aria-hidden="true">🔍</span>
+          <input type="search" id="searchInput" placeholder="Search the Halloween Collection…" aria-label="Search the Halloween Collection" autocomplete="off">
+          <button type="button" id="searchClear" aria-label="Clear search">✕</button>
+        </div>
+        <select id="sortSelect" aria-label="Sort products">
+          <option value="featured">Sort: Featured</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+          <option value="name">Name: A–Z</option>
+        </select>
+      </div>
+      <p id="resultCount" style="color:var(--muted);font-size:.9rem;margin-bottom:18px"></p>
+      <div class="grid" id="productGrid"></div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script>window.PAGE_KEY="halloween";</script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>initCollectionPage("halloween");</script>
+</body>
+</html>
