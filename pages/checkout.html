@@ -208,7 +208,7 @@
       if(discount > 0){ dRow.style.display="flex"; document.getElementById("discCode").textContent=appliedCode; document.getElementById("sumDiscount").textContent="-"+money(discount); }
       else dRow.style.display="none";
 
-      document.getElementById("shipNote").textContent = sub===0 ? "" : "· 3-day delivery";
+      document.getElementById("shipNote").textContent = sub===0 ? "" : "· all 50 states, within 5 business days";
       document.getElementById("sumShip").textContent = sub===0 ? "—" : "FREE";
       document.getElementById("sumTotal").textContent = money(total);
       document.getElementById("payTotal").textContent = money(total);

@@ -341,11 +341,14 @@ function initProductPage(){
   if(!p){ mount.innerHTML = `<div class="center" style="grid-column:1/-1"><h1>Product not found 🫥</h1><a class="btn btn-primary" href="${ROOT}index.html">Back to shop</a></div>`; return; }
   document.title = `${p.name} — Kidse Toys`;
   const packRow = p.packInfo ? `<div><b>Includes</b><span>${p.packInfo}</span></div>` : "";
-  const availRow = p.drop
-    ? `<div><b>Availability</b><span>${dropPending(p) ? dropLabel(p).replace("Drops","Exclusive drop —") + ", one run only" : "Released — limited stock, never restocked"}</span></div>`
-    : p.cat === "halloween"
-      ? `<div><b>Availability</b><span>Live all October · back in the vault November 1</span></div>`
+  const availText = p.cat === "halloween"
+    ? (dropPending(p) ? dropLabel(p).replace("Drops","Unlocks") + " · then live all month"
+                      : "Live now · back in the vault November 1")
+    : p.drop
+      ? (dropPending(p) ? dropLabel(p).replace("Drops","Exclusive drop —") + ", one run only"
+                        : "Released — limited stock, never restocked")
       : "";
+  const availRow = availText ? `<div><b>Availability</b><span>${availText}</span></div>` : "";
   const bundleList = p.includes ? `<ul class="bundle-list" style="margin:18px 0">${p.includes.map(i=>`<li>${i}</li>`).join("")}</ul>` : "";
   mount.innerHTML = `
     <div class="pdp-media" style="${mediaStyle(p)}">${badgeHTML(p)}${p.img?mediaInner(p):`<span class="emoji">${p.emoji}</span>`}</div>
@@ -368,7 +371,7 @@ function initProductPage(){
         <div><b>Category</b><span>${catTag(p)}</span></div>
         ${availRow}
         ${packRow}
-        <div><b>Shipping</b><span>Ships in 1–2 business days · Always free</span></div>
+        <div><b>Shipping</b><span>Free to all 50 states · delivered within 5 business days</span></div>
         <div><b>Ages</b><span>6+ · Not for children under 3 (small parts)</span></div>
         <div><b>Returns</b><span>30-day satisfaction guarantee</span></div>
       </div>
