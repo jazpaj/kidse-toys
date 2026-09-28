@@ -345,8 +345,11 @@ function initProductPage(){
     ? (dropPending(p) ? dropLabel(p).replace("Drops","Unlocks") + " · then live all month"
                       : "Live now · back in the vault November 1")
     : p.drop
-      ? (dropPending(p) ? dropLabel(p).replace("Drops","Exclusive drop —") + ", one run only"
-                        : "Released — limited stock, never restocked")
+      ? p.collection === "October Exclusives"
+        ? (dropPending(p) ? dropLabel(p).replace("Drops","Exclusive drop —") + ", one run only"
+                          : "Released — limited stock, never restocked")
+        : (dropPending(p) ? dropLabel(p).replace("Drops","Launches") + " · not orderable yet"
+                          : "Launched — available now")
       : "";
   const availRow = availText ? `<div><b>Availability</b><span>${availText}</span></div>` : "";
   const bundleList = p.includes ? `<ul class="bundle-list" style="margin:18px 0">${p.includes.map(i=>`<li>${i}</li>`).join("")}</ul>` : "";
