@@ -537,6 +537,9 @@ h1, h2, h3, h4 { font-weight: 800; letter-spacing: -.01em; }
 
 /* Notice = taped-on sign */
 .notice { border:2.5px solid var(--ink); box-shadow: 0 5px 0 rgba(36,48,74,.2); transform: rotate(-.6deg); }
+/* The notice is rotated and carries a hard shadow, so its corners dip into
+   whatever sits directly below it — give the filter row clearance. */
+.notice + .filters { margin-top: 26px; }
 
 /* Playful wobble for anything tagged */
 @keyframes wobble { 0%,100%{transform:rotate(-2deg)} 50%{transform:rotate(2deg)} }
